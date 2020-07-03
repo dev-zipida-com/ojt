@@ -31,7 +31,7 @@ git clone <repository주소>
 ```
 git remote -v 
 #현재 프로젝트의 repository 주소
-#(oirigin : 내 원격저장소 이름)
+#(Origin : 내 원격저장소 이름)
 
 git remote add <이름> <원본 깃주소> 
 #해당 이름과 주소를 가진 원본에 대한 remote를 추가합니다.
@@ -46,7 +46,7 @@ git checkout <이름>
 #<이름>의 브랜치를 HEAD로 지정
 
 git status 
-#현재 상태 확인
+#커밋되지 않은 변경사항 조회
 
 git branch 
 #작업중인 브랜치 확인
@@ -54,19 +54,24 @@ git branch
 
 ###### 참고사항
 > branch 명을 잘 지으면 Commit 이후 무슨 내용을 수정했는지 확인할 수 있다.
+> HEAD의 위치는 "*" 표시로 확인할 수 있다.
+> >ex) master
+> >    *ojt/yj.kang <- 현재 작업중인 브랜치(HEAD 위치)
 
 <br/>
 
 4. 변경사항 Git Commit
 ```
 git add . 
-#바뀐 스테이지 전체를 올린다.
+#바뀐 staging 전체를 올린다.
+# -i 옵션은 대화명 모드가 시작되며 파일 일부분만 선택해서 스테이징이 가능하다.
+# -p 옵션을 사용하면 -i 대화명모드 없이 바로 패치모드를 사용할 수 있다.
 
 git commit 
 #vi 편집을 거쳐 Commit
 
 git push origin <브랜치이름> 
-#해당 origin의 로컬 브랜치를 원격 브랜치로 업로드
+#해당 origin의 로컬 브랜치를 원격 Repository와 동기
 
 #push 진행시 github email, password 입력
 
