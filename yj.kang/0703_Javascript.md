@@ -154,31 +154,6 @@ console.log(hello) // Error, hello is not defined
 
 -----
 
-#### 객체
-자바스크립트는 객체(object) 기반의 스크립트 언어이며 자바스크립트를 이루고 있는 거의 "모든 것"이 객체이다. 원시타입을 제외한 나머지 값들(함수, 배열, 정규표현식 등)은 모두 객체이다.
-+ 키(이름)와 값으로 구성된 프로퍼티(property)의 집합이다.
-+ 프로퍼티 값으로 함수를 사용할 수도 있으며 프로퍼티 값이 함수일 경우 메소드라 부른다.
-```
-var person = {
-    name : 'Kang',
-    age : '26',
-    gender : 'male',
-    sayHello: function() {
-        console.log('Hello world!' + this.name);
-    }
-};
-
-console.log(typeof person);
-#object
-console.log(person);
-#{ name: 'Kang', age: '26', gender: 'male", sayHello....}
-
-person.sayHello();
-#Hello world! Kang
-```
-
------
-
 #### 배열
 배열(array)은 1개의 변수에 여러 개의 값을 순차적으로 저장할 때 사용
 ```
@@ -562,4 +537,303 @@ Host Object (사용자 정의 객체) -> 사용자가 생성한 객체들
 
 ---
 
+### 함수
+어떤 작업을 수행하기 위해 필요한 문(statement)들의 집합을 정의한 코드 블록
+
+* JS에서의 함수는 일급 객체이다 즉 다른 객체들에 일반적으로 적용 가능한 연산을 모두 지원하는 객체를 뜻한다.
+
+###### 기본적인 함수의 정의
+```
+function square(number) {
+    return number * number;
+}
+
+square(2); // 함수는 호출에 의해 실행, 여러번 호출할 수 있다.
+
+//동일한 작업을 반복적으로 수행해야 한다면 미리 정의된 함수를 재사용하는 것이 효율적이다.
+```
+
+##### 익명 함수와 기명 함수
+```
+// 익명 함수
+var test1 = function(a, b) {
+    return a * b;
+};
+
+// 기명 함수
+var test2 = function multiply(a, b) {
+    return a * b;
+};
+
+// 일반 적으로 함수 표현식에서는 함수명을 생략하는 것이 일반적이다.
+// 함수는 일급객체이기 때문에 변수에 할당할 수 있는데 이 변수는 함수명이 아니라 할당된 함수를 가리키는 참조값을 저장하게 된다.
+// 그러므로 함수 호출시 함수명이 아니라 함수를 가리키는 변수명을 사용해야 한다.
+```
+
+##### 매개변수(Parameter, 인자)
+함수의 작업 실행을 위해 추가적인 정보가 필요할 경우, 매개변수를 지정한다. 매개변수는 함수 내에서 변수와 동일하게 동작한다.
+
+###### 매개변수(parameter, 인자) vs 인수(argument)
+매개변수는 함수 내에서 변수와 동일하게 메모리 공간을 확보하며 함수에 전달한 인수는 매개변수에 할당된다. 만약 인수를 전달하지 않으면 매개변수는 undefined로 초기화된다.
+```
+var test = function (p1, p2) {
+    console.log(p1, p2);
+}
+
+test(1); // undefined
+```
+
+##### Call-by-value, Call-by-reference
+Call-by-value(값에 의한 호출) : 함수 호출 시 원시 타입 인수를 함수에 매개변수로 전달할 때 매개변수에 값을 복사하여 함수로 전달하는 방식 ==(전달이 완료된 원시 타입 값은 변경되지 않는다.)==
+```
+function test(primitive) {
+    primitive += 1;
+    return primitive
+}
+
+var x = 0;
+
+console.log(test(x)); // 1
+console.log(x); // 0
+```
+Call-by-reference(참조에 의한 호출) : 함수 호출 시 참조 타입 인수를 함수에 매개변수로 전달할 때 매개변수에 값이 복사되지 않고 객체의 참조값이 매개변수에 저장되어 함수로 전달되는 방식 ==(매개변수의 참조 값을 이용하여 객체의 값을 변경했을 때 전달되어진 참조형의 인수값도 같이 변경된다.)==
+
+```
+function changeVal(primitive, obj) {
+    primitive += 100;
+    obj.name = 'Kang';
+}
+
+var num = 100;
+var obj = {
+    name: 'Lee',
+};
+
+console.log(num); // 100
+console.log(obj); // Object {name: 'Lee'}
+
+changeVal(num, obj);
+
+console.log(num); // 100
+console.log(obj); // Object {name: 'Kang'}
+```
+
+#### 반환값
+함수는 자신을 호출한 코드에게 수행한 결과를 반환(return)할 수 있다.
+
++ `return` 키워드는 함수를 호출한 코드(caller)에게 값을 반환할 때 사용한다.
++ 함수는 배열 등을 이용하여 한 번에 여러 개의 값을 리턴할 수 있다.
++ 함수는 반환을 생략할 수 있다. 이때 함수는 암묵적으로 undefined를 반환한다.
++ `return` 키워드 이후에 다른 구문이 존재하면 그 구문은 실행되지 않는다.
+
+```
+function test(a, b) {
+    var area = a * b;
+    return area // 단일 값의 반환
+}
+
+    console.log(test(3, 5)); // 15
+
+function test2(a, b, c) {
+    var area = a * b;
+    var volume = a * b * c;
+    return [area, volume] // 복수 값의 반환   
+}
+
+    console.log(test2(3, 2, 3)[0]) // 6
+    console.log(test2(3, 2, 3)[1]) // 18 
+```
+
+#### 함수 객체의 프로퍼티
+함수는 객체이다. 따라서 함수도 프로퍼티를 가질 수 있다.
+
+```
+function square(number) {
+    return number * number;
+}
+
+square.x = 1;
+square.y = 2;
+
+console.log(square.x, square.y); // 2
+```
+
+###### 추가사항
+
++ caller 프로퍼티 : 자신을 호출한 함수를 의미
++ length 프로퍼티 : 함수 정의 시 작성된 매개변수 갯수를 의미
++ name 프로퍼티 : 함수명을 나타낸다. 기명함수의 경우 함수명을 값으로 갖고 익명함수의 겨우 빈문자열을 값으로 갖는다.
++ `__proto__` 접근자 프로퍼티 : 프로토타입 객체에 접근할 수 있다.
++ prototype 프로퍼티 : 함수가 객체를 생성하는 생성자 함수로 사용될 때, 생성자 함수가 생성한 인스턴스의 프로토타입 객체를 가리킨다.
+
+----
+
+### 함수의 다양한 형태
+
+#### 즉시 실행 함수
+함수의 정의와 동시에 실행되는 함수, 최초 한번만 호출되며 다시 호출할 수는 없다.
+```
+(function test() {
+    var a = 3;
+    var b = 5;
+    return a * b;
+}());
+```
+
+#### 내부 함수
+함수 내부에 정의된 함수를 뜻한다.
+부모함수는 자식 함수의 변수에 접근할 수 없지만 자식 함수는 부모함수 변수에 접근할 수 있다.
+또한 내부함수는 부모함수의 외부에서 접근할 수 없다.
+```
+function sayHello(name) {
+    var text = 'hello' + name;
+    var logHello = function(){ console.log(text); }
+    logHello();
+}
+
+sayHello('kang'); // Hello Kang
+logHello('kang'); // logHello is not defined
+```
+
+#### 재귀 함수
+자기 자신을 호출하는 함수를 말한다.
+```
+function factorial(n) { //1부터 자신까지의 모든 양의 정수의 곱
+    if(n < 2) return 1; // 조건식을 톨해 재귀 호출을 중지
+    return factorial(n - 1) * n;
+}
+
+console.log(factorial(0)); // 1
+console.log(factorial(1)); // 1
+console.log(factorial(2)); // 2
+console.log(factorial(3)); // 6
+```
++ 재귀 함수는 자신을 무한히 연쇄 호출 하므로 호출을 멈출 수 있는 탈출 조건을 반드시 만들어야 한다. (stackoverflow에러 방지)
+
+#### 콜백 함수
+함수를 명시적으로 호출하는 방식이 아닌 특정 이벤트가 발생했을 때 시스템에 의해 호출되는 함수를 말한다.
+
++ 주로 비동기식 처리 모델에 사용된다.
+    * 처리가 종료하면 호출될 함수를 미리 매개변수에 전달하고 처리가 종료하면 콜백함수를 호출한다.
+
+```
+ex) 이벤트 핸들러 처리
+<html>
+    <body>
+        <button id="myButton">Click</button>
+        <script>
+            var button = document.getElementbyId('myButton');
+            button.addEventListener('click', function() {
+                console.log('clicked!');
+            });
+        </script>
+    </body>
+</html>
+
+```
+
++ setTimeout()의 콜백 함수
+두번째 매개변수에 전달된 시간이 경과되면 첫번째 매개변수에 전달한 콜백 함수가 호출된다.
+```
+setTimeout(function() {
+    console.log('1초 후 출력');
+}, 1000);
+```
+
+----
+
+#### Math Property 정리
+수학 상수와 함수를 위한 프로퍼티와 메소드를 제공하는 빌트인 객체이다.
+```
+# PI값을 반환한다.
+Math.PI; // 3.141592653589793
+
+# 인수의 절댓값을 반환한다 (0 또는 양수)
+Math.abs(-1); // 1
+
+# 인수의 소수점 이하를 반올림
+Math.round(1.4); // 1
+Math.round(1.6); // 2
+Math.round(-1.6) // -2
+
+# 인수의 소수점 이하를 올림
+Math.ceil(1.4); // 2
+Math.ceil(1.6); // 2
+Math.ceil(-1.6); // -1
+
+# 인수의 소수점 이하를 내림
+Math.floor(1.9); // 1
+Math.floor(-1.9); // -2
+
+# 인수의 제곱근
+Math.sqrt(9); // 3
+Math.sqrt(-9); // NaN
+Math.sqrt(2); // 1.4142135623....
+
+# 임의의 부동 소수점(0부터 1미만)
+Math.random(); // 0 ~ 1 미만의 부동 소수점
+
+#첫번째 인수를 밑, 두번째 인수를 지수로하여 거듭제곱
+Math.pow(2, 8); // 256
+Math.pow(2, -1); // 0.5
+
+# 인수 중에서 가장 큰 수를 반환
+Math.max(1, 2, 3); // 3
+
+# 인수 중에서 가장 작은 수를 반환
+Math.min(1, 2, 3); // 1
+```
+
+---
+
+#### 동기식 처리 모델 vs 비동기식 처리 모델
+```
+#동기식 처리 모델 (순차 실행)
+function func1() {
+    console.log('func1');
+    func2();
+}
+
+function func2() {
+    console.log('func2');
+    func3();
+}
+
+function func3() {
+    console.log('func3');
+}
+
+func1();
+
+
+#비동기식 처리 모델(순차 실행X)
+function func1() {
+    console.log('func1');
+}
+
+function func2() {
+    setTimeout(function() {
+        console.log('func2');
+    }, 0);
+
+    func3();
+}
+
+function func3() {
+    console.log('func3');
+}
+
+func1();
+
+// setTimeout 메소드에 두번째 인수 인터벌을 0초로 설정하여도 콘솔에 순서대로 출력하지 않는다
+// setTimeout 메소드가 비동기 함수이기 때문이다.
+```
+
+---
+
+#### 이벤트의 종류
+
+참고 : [이벤트 레퍼런스](https://developer.mozilla.org/en-US/docs/Web/Events)
+
+---
 
