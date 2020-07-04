@@ -835,5 +835,185 @@ func1();
 
 참고 : [이벤트 레퍼런스](https://developer.mozilla.org/en-US/docs/Web/Events)
 
+#### 인라인 이벤트 핸들러 방식
+HTML 요소의 이벤트 핸들러 어트리뷰트에 이벤트 핸들러를 등록하는 방법이다.
++ 이 방식은 더 이상 사용되지 않으며 사용해서도 않된다.
+```
+<!DOCTYPE html>
+<html>
+<body>
+  <button onclick="myHandler()">Click me</button>
+  <script>
+    function myHandler() {
+      alert('Button clicked!');
+    }
+  </script>
+</body>
+</html>
+```
+
+#### 이벤트 핸들러 프로퍼티 방식
+인라인 이벤트 핸들러 방식처럼 HTML과 Javascrip가 뒤섞이는 문제를 해결할 수 있는 방식
++ 단점으로 이벤트 핸들러 프로퍼티에 하나의 이벤트 핸들러만을 바인딩할 수 있다.
+
+```
+<!DOCTYPE html>
+<html>
+<body>
+  <button class="btn">Click me</button>
+  <script>
+    const btn = document.querySelector('.btn');
+
+    // 이벤트 핸들러 프로퍼티 방식은 이벤트에 하나의 이벤트 핸들러만을 바인딩할 수 있다
+    // 첫번째 바인딩된 이벤트 핸들러 => 실행되지 않는다.
+    btn.onclick = function () {
+      alert('① Button clicked 1');
+    };
+
+    // 두번째 바인딩된 이벤트 핸들러
+    btn.onclick = function () {
+      alert('① Button clicked 2');
+    };
+  </script>
+</body>
+</html>
+```
+
+#### addEventLisener 메소드 방식
+###### 장점
++ 하나의 이벤트에 대해 하나 이상의 이벤트 핸들러를 추가할 수 있다.
++ 캡처링과 버블링을 지원한다.
++ HTML 요소뿐만아니라 모든 DOM요소에 대해 동작한다.
+
+```
+<!DOCTYPE html>
+<html>
+<body>
+  <label>User name <input type='text'></label>
+
+  <script>
+    const input = document.querySelector('input[type=text]');
+
+    input.addEventListener('blur', function () {
+      alert('blur event occurred!');
+    });
+  </script>
+</body>
+</html>
+```
+
+* 버블링 : 자식 요소에서 발생한 이벤트가 부모 요소로 전파되는 것
+* 캡처링 : 자식 요소에서 발생한 이벤트가 부모 요소부터 시작하여 이벤트를 발생시킨 자식 요소까지 도달하는 것
+
+#### Event 객체
+이벤트를 발생시킨 요소와 발생한 이벤트에 대한 유용한 정보를 제공한다.
+```
+<!DOCTYPE html>
+<html>
+<body>
+  <p>클릭하세요. 클릭한 곳의 좌표가 표시됩니다.</p>
+  <em class="message"></em>
+  <script>
+  function showCoords(e) { // e: event object
+    const msg = document.querySelector('.message');
+    msg.innerHTML =
+      'clientX value: ' + e.clientX + '<br>' +
+      'clientY value: ' + e.clientY;
+  }
+  addEventListener('click', showCoords);
+  </script>
+</body>
+</html>
+```
+
+event 객체는 이벤트 핸들러에 암묵적으로 전달된다.
++ 이벤트 핸들러를 선언할 때, evnet 객체를 전달받을 첫번째 매개변수를 명시적으로 선언하여야 한다.
+
 ---
+
+### AJAX (Asynchronous JavaScript and XML)
+브라우저에서 웹페이지를 요청하거나 링크를 클릭하면 화면 갱신이 발생한다. 이것은 브라우저와 서버와의 통신에 의한 것이다.
+
+Ajax는 자바스크립트를 이용해 비동기적으로 서버와 브라우저가 데이터를 교환할 수 있는 통신 방식을 의미한다.
+즉, 갱신이 필요한 일부만 로드하여 갱신하면 되므로 빠른 퍼포먼스와 부드러운 화면 표시 효과를 기대할 수 있다.
+
+### JSON (JavaScript Object Notation)
+클라이언트와 서버 간에 데이터 교환을 위한 규칙 (데이터 포맷)
+
+일반 텍스트 포맷보다 효과적인 데이터 구조화가 가능하며 XML 포맷보다 가볍고 사용하기 간편하며 가독성도 좋다.
+
+자바스크립트의 객체 리터럴과 매우 흡사하지만 순수한 텍스트로 구성된 규칙이 있는 데이터 구조이다.
+```
+{
+    "name" : "Kang",
+    "gender" : "male",
+    "age" : 26
+#키는 반드시 큰따옴표로 둘러싸야 한다.
+}
+```
+##### JSON 옵션
+```
+#JSON.stringify : 객체를 JSON 형식의 문자열로 변환한다.
+
+const o = { name : 'kang' };
+const strObject = JSON.stringify(o);
+
+#JSON.parse : JSON 데이터를 가진 문자열을 객체로 변환한다.
+
+const obj = JSON.parse(strObject);
+```
+
+#### XHMLHttpRequest
+브라우저는 XMLHttpRequest 객체를 이용해 Ajax 요청을 생성하고 전송한다. 서버가 브라우저의 요청에 대해 응답을 반환하면 같은 XMLHttpRequest 객체가 그 결과를 처리한다.
+
+##### Ajax request
+```
+// XMLHttpRequest 객체 생성
+const xhr = new XMLHttpRequest();
+// 비동기 방식으로 Request 오픈
+xhr.open('GET', '/users');
+// 전송
+xhr.send();
+```
+
+###### XMLHttpRequest.open
+method : HTTP method("GET","POST","PUT","DELETE" 등)
+url : 요청을 보낼 url
+async : 비동기 조작 여부, default는 true이다.
+
+#### XMLHttpRequest.send
+기본적으로 서버로 전송하는 데이터는 GET, POST 메소드에 따라 그 전송 방식에 차이가 있다.
+
+GET :URL 일부인 쿼리 문자열로 데이터를 서버로 전송한다.
+POST : 데이터를 Request Body에 담아 전송한다.
+
+#### XMLHttpRequest.setRequestHeader
+HTTP Request Header의 값을 설정한다.
++ 반드시 XMLHttpRequest.open 메소드 호출 이후에 호출한다.
+
+###### 자주 사용하는 Content-type
+__text타입__ : text/plain, text/html, text/css, text/javascript
+
+__Application타입__ : application/json, application/x-www-form-urlencode
+
+__file을 업로드하기 위한 타입__ : multipart /formed-data
+
+```
+// json으로 전송하는 경우
+xhr.open('POST', '/users');
+
+// 클라이언트가 서버로 전송할 데이터의 MIME-type 지정: json
+xhr.setRequestHeader('Content-type', 'application/json');
+
+const data = { id: 3, title: 'JavaScript', author: 'Park', price: 5000};
+
+xhr.send(JSON.stringify(data));
+```
+
+###### Accept
+HTTP 클라이언트가 서버에 요청할 때 서버가 센드백할 데이터의 MIME-type을 Accept로 지정할 수 있다.
+```
+// 서버가 센드백할 데이터의 MIME-type 지정: json
+xhr.setRequestHeader('Accept', 'application/json');
+```
 
