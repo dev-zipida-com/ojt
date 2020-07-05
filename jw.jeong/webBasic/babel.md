@@ -38,4 +38,38 @@ npm script는 src폴더 내부의 js에 있는 ES6+파일들을 트랜스 파일
 * babel은 이러한 polyfill을 손쉽게 지원하기 위해 babel-polyfill을 사용하게 되었습니다.
 * babel만으로는 최신 함수를 사용할 수 있는것은 아닙니다. 문법을 변환하여 javascript로 변환하는 역활만 하기 때문입니다.
 * babel은 컴파일시에 실행이되고, polyfill은 런타임때 실행이됩니다.
-참조 자료 : https://babeljs.io/docs/en/babel-polyfill/
+* 사용법으로는 3가지 방법이 있습니다.
+    * core-js에서 폴리필 가져오기
+        * core-js모듈에서 필요한 폴리필만 가져오는 방법입니다.
+        * 코드 최상단에 import문만 적어주면 해결할 수 있습니다.
+        * 코드 크기가 작지만 폴리필을 모두 작성해야하기 때문에 개발자가 놓칠경우가 있습니다.
+    * babel/preset-env 프리셋 이용하기.
+        * 지원할 브라우저 정보와 일부 옵션을 지정하면 자동으로 필요한 기능을 주입해줍니다.
+        ```
+        //1. npm을 이용해 프리셋을 설치합니다
+        npm i @babel/preset-env
+
+        //2. 폴리필 테스트를 위한 적당한 코드를 작성합니다.
+        const p = Promise.resolve(10)
+        const obj={
+            a : 5,
+            b : 10,
+            c : 20
+        }
+        const arr = Object.values(obj)
+        const exist = arr.includes(20);
+        
+        //3. .babelrc설정 파일을 작성합니다.
+        {
+            "presets":[
+                ["@babel/preset-env",{
+                    "targets":">=0.25%,not dead"//시장 점유율이 0.25이상,업데이트가 종료되지 않은 브라우저
+                }]
+            ]
+        }
+        ```
+        preset속성에 babel/preset-evn를 작성하고 두번째 요소에 옵션을 적었습니다. targets는 대상 브라우저의 버전을 작성합니다.
+    
+
+      
+__참조: https://babeljs.io/docs/en/babel-polyfill/__
