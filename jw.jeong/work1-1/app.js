@@ -22,15 +22,9 @@ var storage = localStorage;
 function getTodo(e){  
     var keycode = window.event.keyCode
     var toDo = toDo_text.value;
-    var blank_check = /[\s]/g;
-    if(keycode == 13 && toDo !== '' && !blank_check.test(toDo)){ // enter의 keyCode는 13
+    if((keycode == 13 || e.type=='click') && toDo !== ''){ // enter의 keyCode는 13 || e.type == click 둘 중하나의 이벤트가 실행이되면 입력 이벤트가 실행합니다.
         var storageKey = toDo; //key값에 스토리지 길이만큼 입력
-        storage.setItem(storageKey,toDo); // session 저장
-        toDo_list.append(createIndex(toDo)); // tasks 버튼추가 
-        toDo_text.value = '';
-    }else if(e.type == 'click' && toDo !=='' && !blank_check.test(toDo)){
-        var storageKey = toDo; //key값에 스토리지 길이만큼 입력
-        storage.setItem(storageKey,toDo); // session 저장
+        storage.setItem(storageKey,toDo); // localstroage 저장
         toDo_list.append(createIndex(toDo)); // tasks 버튼추가 
         toDo_text.value = '';
     }
@@ -39,7 +33,7 @@ function getTodo(e){
 function createIndex(toDo){
     var div = document.createElement('ul'),
         button = document.createElement('input');
-    div.className=toDo;
+    div.className=toDo; 
     div.innerHTML=toDo;
     button.type = 'button';
     button.value = 'Delete';
@@ -49,17 +43,17 @@ function createIndex(toDo){
 }
 
 function deleteTodo(e){
-    var deleteIndex = e.target.parentNode;
-    storage.removeItem(deleteIndex.className);
-    toDo_list.removeChild(deleteIndex);
+    var deleteIndex = e.target.parentNode; //e.target은 button을 추적하여 부모노드를 추적합니다.
+    storage.removeItem(deleteIndex.className);//localStorage에서 제거해줍니다.
+    toDo_list.removeChild(deleteIndex);//todo list에서 항목 삭제합니다.
     
 }
 
-function getStorage(){
+function getStorage(){//화면의 다시 온로드하면 실행합니다.
     let stoargeLength = storage.length;
     for(let i=0;i<=stoargeLength-1;i++){
-        let storageKey = storage.key(i)
-        toDo_list.append(createIndex(storage.getItem(storageKey)))
+        let storageKey = storage.key(i) //key값을 길이만큼 받아옵니다.
+        toDo_list.append(createIndex(storage.getItem(storageKey))) //todo list에 차례대로 쌓아줍니다.
     }
 }
 
