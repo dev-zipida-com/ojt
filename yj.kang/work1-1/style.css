@@ -1,0 +1,10 @@
+/* Basic Style */
+body {
+  background: #fff;
+  color: #333;
+}
+.container {
+  display: block;
+  width: 400px;
+  margin: 100px auto 0;
+}
