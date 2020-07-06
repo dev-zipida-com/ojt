@@ -39,17 +39,24 @@ function createIndex(todo){
 function deleteTodo(e){
     let todoList = JSON.parse(localStorage.getItem('todoList'));
     let deleteValue = e.target.parentNode; //e.target은 button을 추적하여 부모노드를 추적합니다.
-    let deleteList=[]
     //filter를 사용하면 스토리지에서 받아온 값을 각각 task에 담아서 객체 하나씩 사용할 수 있습니다
     //task랑 삭제하려는 값과 동일한지 안한지 체크를 한 후 이 값과 동일하지 않은값을 delete리스트에 넣어줍니다.
     //delete을 다시 todoList를 이름으로 스토리지에 setItem해줍니다.
-    todoList = todoList.filter(task => { 
+    /*todoList = todoList.filter(task => { 
         if(task !=deleteValue.className){
             deleteList.push(task);
+        }else{
+            break
         }
-    })
-    storage.setItem('todoList',JSON.stringify(deleteList));
-    todoTask.removeChild(deleteValue);//todo list에서 항목 삭제합니다.   
+    })*/
+    for(let task of todoList){
+        if(task == deleteValue.className){
+            todoList.splice(todoList.indexOf(task),1,)
+            break
+        }
+    }
+    storage.setItem('todoList',JSON.stringify(todoList));
+    todoTask.removeChild(deleteValue);//todo list에서 항목 삭제합니다.   */
 }
 
 function getStorage(){
