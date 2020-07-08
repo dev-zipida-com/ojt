@@ -67,3 +67,12 @@ On-the-job training
 - 입력된 텍스트는 목록으로 보여지며 localStorage 에 저장됩니다.
 - 작성된 todo 아이템의 Delete 버튼을 클릭하면 localStorage 에 삭제됩니다.
 - 작성과 삭제는 동적 화면으로 페이지 새로고침 없이 구현되야 합니다.
+
+**(work.2) fetch 를 이용해서 API 호출 하기**
+
+![work1-2](./assets/work1-2.png)
+
+- fetch 함수를 이용해서 웹상의 json 을 호출합니다.
+- 호출 주소는 다음과 같습니다. http://dummy.restapiexample.com/api/v1/employees
+- 가져온 데이터는 table 의 header, body 를 이용해서 정돈하여 보여줍니다.
+- 버튼을 클릭하여 페이지의 새로고침 없이 데이터를 새로고침 해야합니다.
