@@ -1,0 +1,32 @@
+#get-employee{
+    border : 1px solid;
+    padding :10px;
+    background-color: transparent;
+    transition:0.2s;
+}
+
+#employee-table{
+    width : 600px;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+#employee-table > thead > tr >td {
+    padding : 10px 0px;
+    background-color:#808080;
+    color : white;
+    font-size : 17px;
+}
+
+#employee-table > tbody > tr > td{
+    padding : 10px 0px;
+    font-size : 17px;
+}
+
+#employee-table > tbody tr:nth-child(2n) {
+    background-color: #c7c7c7;
+}
+
+#employee-table > tbody tr:nth-child(2n+1) {
+    background-color: #dfdfdf;
+}
