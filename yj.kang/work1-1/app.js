@@ -23,9 +23,7 @@ function addTodo(e) { // 버튼 클릭 이벤트
 function insertTodo(text) {
     let li = document.createElement("li"); // li 동적 생성
     let deleteBtn = document.createElement("button"); // Delete Button 동적 생성
-    let newId = toDos.length + 1;
     li.innerText = text; // todoValue 삽입
-    li.id = newId; // 삭제를 위해 localStorage ID와 동일하게 부여
     deleteBtn.innerText = "Delete"; // Delete Text 삽입
     deleteBtn.id = "deleteBtn"
     deleteBtn.addEventListener("click", deleteTodo);
@@ -33,7 +31,6 @@ function insertTodo(text) {
     todoList.appendChild(li);
 
     todoObj = {
-        id : newId, // 비교 삭제를 위한 아이디 부여
         text : text // todoText 저장
     };
 
@@ -43,37 +40,29 @@ function insertTodo(text) {
 }
 
 function deleteTodo(event) {
-    const liDelete = event.target.parentNode; //선택된 deletBtn의 부모노드 li
-    let liId = liDelete.id;
-    liDelete.remove();
+    const deleteList = event.target.parentNode; // 선택된 li 태그
+    const selectList = document.querySelectorAll("li");
+    const arrayList = [...selectList] // htmlCollection -> list
+    const listIndex = arrayList.indexOf(deleteList); // arrayList에서 선택된 li태그의 index 값 반환
 
-    let resetTodo = []; // filter로 해당 todolist 삭제 후 id값 초기화를 위한 배열
-
-    const cleanTodo = toDos.filter(function(e) { 
-        return e.id !== parseInt(liId); // toDos에서 선택된 id를 제외한 나머지를 찾아온다.
-    })
-
-    for(let i = 1; i <= cleanTodo.length; i++) { // 선택된 todolist 제거후 id값 초기화
-        let resetObj = {}; // Obj
-        resetObj['id'] = i
-        resetObj['text'] = cleanTodo[i-1].text;
-        liDelete.id = i;
-        resetTodo.push(resetObj); // 해당 Obj를 resetTodo에 push
-    }
-    console.log(resetTodo);
-
-    toDos = resetTodo; // toDos를 최종정리된 resetTodo로 변경
-    saveTodo(toDos); // 저장
-}
+    let listToDo = localStorage.getItem("toDos");
+    listToDo = JSON.parse(listToDo); // object -> array
     
+    deleteList.remove(); // 리스트 삭제
+
+    listToDo.splice(listIndex, 1); // 선택된 li index 번호를 기준으로 해당 인덱스 번호의 객체 삭제
+
+    toDos = listToDo;
+    saveTodo();
+}
 
 function saveTodo() {
-    localStorage.setItem("toDos", JSON.stringify(toDos)); // obj -> string
-    
+    localStorage.setItem("toDos", JSON.stringify(toDos)); // obj -> strin
 }
 
 function loadTodo() {
     const todoLoacl = localStorage.getItem("toDos"); // localStorage Key "toDos" 가져오기
+
     let todoParse = JSON.parse(todoLoacl); // string -> obj
     if(todoParse != null) {
         todoParse.forEach(function(e) { // toDos Value => text 값을 insertTodo로 전송
