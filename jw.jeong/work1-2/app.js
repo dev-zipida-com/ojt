@@ -6,17 +6,17 @@ function insertEmployee(){
     fetch("http://dummy.restapiexample.com/api/v1/employees")
     .then((res) => res.json())
     .then((json) => { 
-        tableHead = Object.keys(json.data[0]);
+        const tableHead = Object.keys(json.data[0]);
         
-        insertThead.apply(null,tableHead)
+        insertThead(tableHead);
 
         if(employeeTable.tBodies[0] !==undefined){
             employeeTable.tBodies[0].remove()
         }
 
-        json.data.forEach((employee) =>{
-            employee = Object.values(employee)
-            insertBody.apply(null,employee);
+        json.data.forEach((body,index) =>{
+            let employee = Object.values(body)
+            insertBody(employee,index);
         })
     })
 }
@@ -40,23 +40,31 @@ function insertEmployee(){
     })
 }*/
 
-function insertThead(){
+function insertThead(tableHead){
     if(employeeTable.tHead === null){
         employeeTable.createTHead()
         employeeTable.tHead.insertRow(0)
-        for(let head in arguments){
-            employeeTable.tHead.rows[0].insertCell(head).innerText=`${arguments[head]}`
-        }
+        tableHead.forEach((head,index)=>{
+            employeeTable.tHead.rows[0].insertCell(index).innerText=`${head}`;
+        })
+        // for(let head in tableHead){
+        //     employeeTable.tHead.rows[0].insertCell(head).innerText=`${tableHead[head]}`
+        // }
     }
     
 }
 
-function insertBody(){
+function insertBody(employee,index){
     employeeTable.createTBody()
-    employeeTable.tBodies[0].insertRow(employeeTable.tBodies[0].rows.length);
-    for(let body in arguments){
-        employeeTable.tBodies[0].rows[employeeTable.tBodies[0].rows.length-1].insertCell(body).innerText=`${arguments[body]}`
-    }
+    employeeTable.tBodies[0].insertRow(index);
+    employee.forEach((body,bodyIndex)=>{
+        console.log(body,bodyIndex,index)
+        employeeTable.tBodies[0].rows[index].insertCell(bodyIndex).innerText=`${body}`;
+    })
+    
+    // for(let body in arguments){
+    //     employeeTable.tBodies[0].rows[employeeTable.tBodies[0].rows.length-1].insertCell(body).innerText=`${arguments[body]}`
+    // }
 }
 
 getEmployee.addEventListener('click',insertEmployee);
