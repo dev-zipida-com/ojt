@@ -15,7 +15,7 @@ function insertEmployee(){
         }
 
         json.data.forEach((body,index) =>{
-            let employee = Object.values(body)
+            const employee = Object.values(body)
             insertBody(employee,index);
         })
     })
@@ -55,10 +55,12 @@ function insertThead(tableHead){
 }
 
 function insertBody(employee,index){
-    employeeTable.createTBody()
+    //employeeTable.createTBody()//tbody가 n개 생성됩니다.
+    if (employeeTable.tBodies[0] === undefined){
+        employeeTable.createTBody()
+    }//toBodies n개 생성되는 것을 막기 위하여 사용했습니다.
     employeeTable.tBodies[0].insertRow(index);
     employee.forEach((body,bodyIndex)=>{
-        console.log(body,bodyIndex,index)
         employeeTable.tBodies[0].rows[index].insertCell(bodyIndex).innerText=`${body}`;
     })
     
