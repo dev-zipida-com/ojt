@@ -52,11 +52,11 @@ function tableCheck(row) { // 테이블 중복생성 방지
     if(tbodyCount === 0) { // tbody에 요소가 없으면 테이블을 그려준다.
         fetchData();
     } else { // 요소가 있으면 중복 생성을 방지하기 위해서 지우고 새로 만들어준다.
-        console.log("테이블을 초기화 합니다.");
         table.deleteRow(0);
         for(let i=0; i<=tbodyCount; i++){
             tbody.deleteRow(-1, tbodyCount);
         }
+        fetchData();
     }
 }
 
