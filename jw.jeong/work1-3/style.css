@@ -1,0 +1,62 @@
+body{
+    text-align:center;
+
+    background-color :#aeb6b5 
+}
+input {
+    width : 100px;
+    height : 35px;
+    color : white;
+}
+
+section > p{
+    display:inline-block;
+}
+
+p{
+    font-size : 30px;
+}
+
+.toggle {
+    background-color: blue;
+}
+
+.stopwatch-start{
+    background-color: red;
+}
+
+.stopwatch-pause{
+    background-color: #86947d;
+}
+
+.stopwatch-timelab{
+    background-color: orange;
+}
+
+.stopwatch-reset{
+    background-color: green;
+}
+
+.clock-view{
+    display:block;
+}
+
+.stopwatch-view{
+    display:none;
+}
+
+.clock-view.delete{
+    display:none;
+}
+
+.stopwatch-view.delete{
+    display:block;   
+}
+
+.status-name{
+    font-size : 40px;
+}
+
+.recordTimelab{
+    
+}
