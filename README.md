@@ -76,3 +76,12 @@ On-the-job training
 - 호출 주소는 다음과 같습니다. http://dummy.restapiexample.com/api/v1/employees
 - 가져온 데이터는 table 의 header, body 를 이용해서 정돈하여 보여줍니다.
 - 버튼을 클릭하여 페이지의 새로고침 없이 데이터를 새로고침 해야합니다.
+
+**(work.3) Date 의 prototype 을 확장하여 시계 만들기**
+
+![work1-3](./assets/work1-3.png)
+
+ - Date 의 prototype 을 확장한 새로운 함수를 작성합니다.
+ - 시간은 초 단위까지 표시하며 동적으로 변화하는 시계를 구현합니다.
+ - 버튼을 클릭해서 시간 표시와 타이머 스위칭하여 보여줄수 있어야합니다.
+ - 타이머는 ms 단위로 보여지며 스톱 기능과 랩타임 기능을 구현합니다.
