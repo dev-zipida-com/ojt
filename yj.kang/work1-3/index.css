@@ -73,3 +73,11 @@ h1 {
     color: #fff;
     background-color: #23b310;
 }
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
