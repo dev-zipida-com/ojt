@@ -1,9 +1,9 @@
 body{
     text-align:center;
-
+    width:500px;
     background-color :#aeb6b5 
 }
-input {
+input[type='button'] {
     width : 100px;
     height : 35px;
     color : white;
@@ -11,6 +11,8 @@ input {
 
 section > p{
     display:inline-block;
+    word-spacing: 0.1em;
+    width : 58px;
 }
 
 p{
@@ -55,8 +57,4 @@ p{
 
 .status-name{
     font-size : 40px;
-}
-
-.recordTimelab{
-    
 }
