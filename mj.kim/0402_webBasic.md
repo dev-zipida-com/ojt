@@ -80,3 +80,40 @@
 + Node.js
   1. npm
       + node package module(npm)
+      + Node Package Manager의 약자
+      + JS 패키지 매니저이고 NodeJs에서 사용할 수 있는 모듈들을 패키지화하여 모아둔 저장소 역할
+      + 설치/관리를 수행할 수 있는 CLI(Command Line Interface) 제공
+      + package.json파일로 프로젝트의 정보와 패키지들의 의존성 관리
+  2. package.json
+      + 사용하고 있는 패키지들의 명세가 작성
+      + 프로젝트를 다른 사람에게 공유하고 싶다면 package.json을 공유하여 개발 환경을 빠르게 구축 가능
+      + JAVA에서 Maven의 pom.xml과 비슷한 역할
+  3. module
+      + 독립된 기능을 갖는 것(함수, 파일)들의 모임
+      + 기능별로 함수를 만들어 함수를 호출하는 방식으로 프로그래밍을 하게 되면 유지보수면에서 훨씬 수월하기 때문에 이러한 모듈개념을 Node.js에서 사용
+      + 외장 모듈
+        ```
+        - 일반 node.js 개발자들이 만들어 놓은 모듈(라이브러리)
+        - 외장 모듈 사용을 위해선 npm을 사용
+        ```
+      + 내장 모듈
+        ```
+        - node.js를 설치하고 나면 그 안에 이미 제공되어진 모듈을 의미
+        - 내장 모듈은 이미 node.js를 설치할 때 존재하기 떄문에 npm이 따로 필요없음
+        ```
+
++ Babel
+  + 공식 사이트 소개
+    ```
+    - Babel is a JavaScript compiler
+    - 정확히는 babel은 js로 결과물을 만들어주는 컴파일러
+    - 소스 대 소스 컴파일러(transpiler) 라고 불림
+    ```
+  - 최신 버전의 js 문법은 브라우저가 이해하지 못하기 때문에 babel이 브라우저가 이해할 수 있는 문법으로 변환해 줌
+  - babel-polyfill
+    ```
+    - babel은 문법만 변환시켜줄 뿐 babel을 사용한다고 js 최신 함수를 사용할 수 있는건 아님
+    - polifill은 프로그램이 처음에 시작될 때 현재 브라우저에서 지원하지 않는 함수를 검사해 각 object의 prototype에 붙혀주는 역할
+    - 즉, babel은 컴파일-타임에 실행. babel-polyfill은 런-타임에 실행
+    - babel-polyfill 사용하려면 별도 설정 필요
+    ```

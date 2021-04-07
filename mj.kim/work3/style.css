@@ -1,0 +1,25 @@
+#root {
+
+}
+
+.time-zone {
+    width: 500px;
+    height: 500px;
+    background: tomato;
+}
+
+.clock-zone {
+    display: block;
+    padding: 10px;
+}
+
+.stopwatch-zone {
+    display: none;
+}
+
+#toggleBtn {
+    background: blue;
+    color: #fff;
+    padding: 5px 20px;
+    align-items: center;
+}

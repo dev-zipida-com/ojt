@@ -1,0 +1,64 @@
+body{
+    background-color: #fff;
+    color: #333;
+}
+
+#root {
+    display: block;
+    width: 400px;
+    margin: 100px auto 0;
+}
+
+#root > h3 {
+    font-weight: bold;
+    padding-bottom : 10px;
+    border-bottom: 2px solid black;
+    margin: 0px auto;
+    font-size: 15px;
+
+}
+
+#todo-list {
+    margin: 0;
+    padding: 0;
+}
+
+#todo-list > li {
+  list-style-type: none;
+  padding: 20px 10px 20px 20px;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+#add-section {
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+#add-btn {
+    border: 0px;
+    background-color: transparent;
+    font-size: 14px;
+    color: #A0A0A0;
+    /* width: 64px; */
+    margin: 22px 0px 22px 0px;
+    /* padding-right: 15px; */
+    padding-left: 20px;
+    float: right;
+}
+
+#todo-task {
+    width: 330px;
+    height: 30px;
+    border: 1px solid #A0A0A0;
+    border-radius: 5px;
+    margin-top: 15px;
+    float: left;
+}
+
+#deleteBtn {
+    border: 0px;
+    background-color: transparent;
+    font-size: 14px;
+    color: #A0A0A0;
+    float: right;
+} 
