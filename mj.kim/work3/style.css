@@ -1,25 +1,93 @@
-#root {
-
+body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
 }
 
-.time-zone {
-    width: 500px;
-    height: 500px;
-    background: tomato;
+h1 {
+    font-size: 45px;
+    margin: 10px;
+    padding: 0px;
+    text-align: center;
 }
 
-.clock-zone {
+.clock-stopwatch {
+    width: 600px;
+    
+}
+
+#now-time {
     display: block;
+    padding: 10px;
+    font-size: 30px;
+}
+
+.stopwatch-time {
+    display: none;
     padding: 10px;
 }
 
-.stopwatch-zone {
+.stopwatch-section {
+    display: none;
+    padding: 10px;
+}
+
+#stopwatch-time {
+    padding: 10px;
+    font-size: 30px;
     display: none;
 }
 
 #toggleBtn {
-    background: blue;
+    width: 120px;
+    font-size: 15px;
+    background: #4287F5;
     color: #fff;
     padding: 5px 20px;
     align-items: center;
+    border-radius: 4px;
+}
+
+#start-btn {
+    width: 120px;
+    font-size: 15px;
+    background: #F54542;
+    color: #fff;
+    padding: 5px 20px;
+    align-items: center;
+    border-radius: 4px;
+}
+
+#pause-btn {
+    width: 120px;
+    font-size: 15px;
+    background: #33AE9B;
+    color: #fff;
+    padding: 5px 20px;
+    align-items: center;
+    border-radius: 4px;
+}
+
+#record-btn {
+    width: 120px;
+    font-size: 15px;
+    background: #FF9645;
+    color: #fff;
+    padding: 5px 20px;
+    align-items: center;
+    border-radius: 4px;
+}
+
+#reset-btn {
+    width: 120px;
+    font-size: 15px;
+    background: #39B012;
+    color: #fff;
+    padding: 5px 20px;
+    align-items: center;
+    border-radius: 4px;
+}
+
+#record-list {
+    text-align: left;
 }
