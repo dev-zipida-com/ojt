@@ -59,15 +59,17 @@ export function createAsyncHandler(type, key) {
       case SUCCESS:
         return {
           ...state,
-          [key]: success[action.data],
+          [key]: success(action.data),
         };
       case ERROR:
         return {
           ...state,
-          [key]: error[action.error],
+          [key]: error(action.error),
         };
       default:
         return state;
     }
   }
+
+  return handler;
 }
