@@ -13,7 +13,7 @@
 
 - 리덕스 미들웨어는 하나의 함수
 
-```
+```js
   const middleware = store => next => action => {
     // 하고싶은 작업..
   }
@@ -39,14 +39,23 @@
 
   - 액션 객체가 아닌 함수를 디스패치 할 수 있음
 
-  ```
-  const thunk = store => next => action =>
-    typeof action === 'function'
+  ```js
+  const thunk = (store) => (next) => (action) =>
+    typeof action === "function"
       ? action(store.dispatch, store.getState)
-      : next(action)
+      : next(action);
   ```
 
 - #### `redux-saga`
+
+  - redux-thunk 다음으로 가장 많이 사용되는 비동기 작업 관련 미들웨어
+  - 액션을 모니터링하고 있다가 특정 액션이 발생하면 이에 따라 특정 작업을 하는 방식을 사용
+    > 특정 작업의 예 : 특정 자바스크립트 실행, 다른 액션 디스패치, 현재 상태 조회 등
+  - react thunk로 처리하기 까다로운 걸 saga로 가능
+    - 비동기 작업을 진행할 때 기존 요청을 취소 할 수 있음 ex) 기존에 진행하던 작업을 특정 액션을 디스패치 함으로써 중지, 동일한 비동기 작업을 할 때 맨 먼저 시작된 것만 처리하게 하거나 맨 마지막에 시작된 것만 처리하게 하는 기능이 탑재 되있음
+    - 특정 액션이 발생 했을 때 이에 따라 다른 액션을 디스패치 하거나 JS코드 실행 가능
+    - 웹소켓을 사용하는경우 Channel이라는 기능을 사용하여 더욱 효울적으로 코드 관리 가능
+    - 비동기 작업이 실패했을 때 재시도 하는 기능 구현 가능
 
 - #### `redux-observable`
 
