@@ -5,7 +5,7 @@ export const getPosts = async () => {
   return response.data;
 };
 
-export const getPostsById = async (id) => {
+export const getPostById = async (id) => {
   const response = await axios.get(`/posts/${id}`);
   return response.data;
 };
