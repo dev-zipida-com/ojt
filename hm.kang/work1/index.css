@@ -1,0 +1,58 @@
+body{
+    text-align: center;
+    vertical-align: middle;
+}
+
+#root{
+    width: 400px;
+    height: 600px;
+    margin: auto;
+    margin-top: 10%;
+}
+
+h3{
+    border-bottom: 1px black solid;
+    text-align:  left;
+    margin-top: 10%;
+}
+
+
+.add-btn{
+    border: 0px;
+    background-color: transparent;
+    font-size: 20px;
+    color: #A0A0A0;
+    float: right;
+    height: 40px;
+}
+
+input{
+    height: 40px;
+    width: 80%;
+    margin-left: 0px;
+    font-size: 30px;
+}
+
+table{
+    width: 400px;
+}
+tbody{
+    width: 400px;
+}
+tr{
+    border-bottom: 1px solid black;
+}
+
+.delete-btn{
+    border: 0px;
+    background-color: transparent;
+    font-size: 20px;
+    color: #A0A0A0;
+    float: right;
+    height: 20px;
+}
+
+.todo-label{
+    font-size: 20px;
+    float: left;
+}
