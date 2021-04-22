@@ -1,87 +1,177 @@
-//초기 구성 
 
-var title = document.createElement("h1")
-title.innerHTML = "할일 목록";
+const table = document.createElement("table");
 
-var addTitle = document.createElement("h3");
-addTitle.innerHTML = "할일 추가";
+var thId = document.createElement("th");
+thId.innerHTML = "id"
+thId.className = "id";
+var thName = document.createElement("th");
+thName.innerHTML = "employee_name";
+thName.className = "employee_name";
+var thSalary = document.createElement("th");
+thSalary.innerHTML = "employee_salary";
+thSalary.className = "employee_salary";
+var thAge = document.createElement("th");
+thAge.innerHTML = "employee_age";
+thAge.className = "employee_age";
+var thImg = document.createElement("th");
+thImg.innerHTML = "profile_image";
+thImg.className = "profile_image";
 
-var todoTitle = document.createElement("h3");
-todoTitle.innerHTML = "할일 목록";
-
-var addDiv = document.createElement("div");
-addDiv.className = "addSection";
-var addInput = document.createElement("input");
-addInput.type = "text";
-var addButton = document.createElement("button");
-addButton.className = "add-btn";
-addButton.innerHTML = "추가";
-
-
-addDiv.appendChild( addInput );
-addDiv.appendChild( addButton );
+let tableHeader = document.createElement("tr");
 
 
-var todoTable = document.createElement("table");
-var todoList = document.createElement("tbody");
-todoTable.appendChild( todoList );
+tableHeader.appendChild(thId);
+tableHeader.appendChild(thName);
+tableHeader.appendChild(thSalary);
+tableHeader.appendChild(thAge);
+tableHeader.appendChild(thImg);
+
+table.appendChild(tableHeader);
+const refreshBtn = document.createElement("button");
+refreshBtn.className = "refresh";
+refreshBtn.innerHTML = "Refresh";
+
+const rootDiv = document.getElementById("root");
 
 
 
-var root = document.getElementById("root");
+rootDiv.appendChild(refreshBtn);
+rootDiv.appendChild(table);
 
-//root div 트리에 맞게 구성
-root.appendChild( title )
-root.appendChild( addTitle )
-root.appendChild( addDiv )
-root.appendChild( todoTitle )
-root.appendChild( todoTable )
+refreshBtn.onclick = refreshTable;
 
-addButton.onclick = addTodo;
-addInput.addEventListener( "keypress" , checkPressedEnter , false );
+document.addEventListener('DOMContentLoaded' , () => {
+    refreshTable();
+});
 
-//input enter 입력
-function checkPressedEnter( event ){
-    if( event.keyCode == 13 ) addTodo();
-}
+function refreshTable() {
+    while (table.hasChildNodes()) table.removeChild(table.firstChild);
+    table.appendChild(tableHeader);
 
-function addTodo( e ){
-    let uuid = uuidv4();
-    let newTodo = document.createElement("tr");
-    newTodo.id = uuid;
+    // 테스트 dummy api 제공하는 곳이 잘 안되서 임의로 변수에 데이터 지정.
+    // fetch( "http://dummy.restapiexample.com/api/v1/employees", ).then( response => {
+    // if( response.data.status == "success" ){
 
-    let todoLabel = document.createElement("label");
-    todoLabel.className = "todo-label";
-    todoLabel.innerHTML = addInput.value;
+    //     response.data.data.forEach( data => {
+    //         let newData = document.createElement("tr");
 
-    let deleteButton = document.createElement("button");
-    deleteButton.innerHTML = "삭제";
-    deleteButton.className = "delete-btn";
+    //         let id = document.createElement("td");
+    //         let name = document.createElement("td");
+    //         let salary = document.createElement("td");
+    //         let age = document.createElement("td");
+    //         let profile = document.createElement("td");
 
-    deleteButton.onclick = deleteTodo;
+    //         id.innerHTML = data.id;
+    //         name.innerHTML = data.employee_name;
+    //         salary.innerHTML = data.employee_salary;
+    //         age.innerHTML = data.employee_age;
+    //         profile.innerHTML = data.profile_image;
 
-    newTodo.appendChild( todoLabel );
-    newTodo.appendChild( deleteButton );
+    //         newData.appendChild(id);
+    //         newData.appendChild(name);
+    //         newData.appendChild(salary);
+    //         newData.appendChild(age);
+    //         newData.appendChild(profile);
+
+    //         table.appendChild( newData);
+    //     });
+    // }
+    // }).catch( error => {
+    //     console.log( JSON.stringify( error, null ,4));
+    // })
     
-    todoList.prepend( newTodo );
 
-    localStorage.setItem( uuid, addInput.value );
+    if( dummy.status == "success" ){
+        dummy.data.push( dummy.data.shift() );
 
-    addInput.value = "";
+        dummy.data.forEach( data => {
+            let newData = document.createElement("tr");
 
+            let id = document.createElement("td");
+            let name = document.createElement("td");
+            let salary = document.createElement("td");
+            let age = document.createElement("td");
+            let profile = document.createElement("td");
+
+            id.innerHTML = data.id;
+            name.innerHTML = data.employee_name;
+            salary.innerHTML = data.employee_salary;
+            age.innerHTML = data.employee_age;
+            profile.innerHTML = data.profile_image;
+
+            newData.appendChild(id);
+            newData.appendChild(name);
+            newData.appendChild(salary);
+            newData.appendChild(age);
+            newData.appendChild(profile);
+
+            table.appendChild( newData);
+        });
+    }
 }
 
-function deleteTodo( e ){
-    console.log( e );
-    let deleteData = e.target.parentNode
-    localStorage.removeItem(deleteData.id);
-    deleteData.remove();
-} 
 
 
-function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  }
+//임시 dummy data 
+var dummy = {
+    "status": "success",
+    "data": [
+        {
+            "id": "1",
+            "employee_name": "Tiger testMAnd",
+            "employee_salary": "320800",
+            "employee_age": "61",
+            "profile_image": ""
+        },
+        {
+            "id": "2",
+            "employee_name": "Tiger Nixon",
+            "employee_salary": "320800",
+            "employee_age": "61",
+            "profile_image": ""
+        }, {
+            "id": "3",
+            "employee_name": "Tiger Nixon",
+            "employee_salary": "320800",
+            "employee_age": "61",
+            "profile_image": ""
+        }, {
+            "id": "14",
+            "employee_name": "Tiger WOW",
+            "employee_salary": "320800",
+            "employee_age": "61",
+            "profile_image": ""
+        }, {
+            "id": "1",
+            "employee_name": "Tiger Nixon",
+            "employee_salary": "595948",
+            "employee_age": "61",
+            "profile_image": ""
+        }, {
+            "id": "5",
+            "employee_name": "Tiger Nixon",
+            "employee_salary": "320800",
+            "employee_age": "61",
+            "profile_image": ""
+        }, {
+            "id": "9",
+            "employee_name": "Tiger Nixon",
+            "employee_salary": "320800",
+            "employee_age": "61",
+            "profile_image": ""
+        }, {
+            "id": "8",
+            "employee_name": "Tiger Nixon",
+            "employee_salary": "320800",
+            "employee_age": "61",
+            "profile_image": ""
+        }, {
+            "id": "7",
+            "employee_name": "Lion",
+            "employee_salary": "320800",
+            "employee_age": "61",
+            "profile_image": ""
+        },
+
+    ]
+}
