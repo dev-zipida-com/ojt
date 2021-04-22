@@ -11,33 +11,38 @@
 <body>
         <div id="root">
             <div id="clock" class="clock time-container">
-                <label>현재 시간</label>
+                <h1>Clock</h1>
                 <br>
-                <button id="toggle-stop">Toggle</button>
+                <button id="toggle-stop" class="btn">Toggle</button>
                 <br>
-                <label id="clock-time">0000/00/00 00:00:00</label>
+                <h2 id="clock-time">0000/00/00 00:00:00</h2>
             </div>
 
             <div id="stop-watch" class="stop-watch time-container" hidden >
-                <div>스톰워치!
-                </div>
-                <button id="toggle-clock">Toggle</button>
+                <h1>Stop Watch</h1>
+                <button id="toggle-clock" class="btn">Toggle</button>
                 <div class="button-section">
-                    <button id="start-btn" class="start-btn">
-                        시작
+                    <button id="start-btn" class="start-btn btn">
+                        Start
                     </button>
-                    <button id="stop-btn" class="stop-btn">
-                        중지
+                    <button id="stop-btn" class="stop-btn btn">
+                        Pause
                     </button>
-                    <button id="record-btn" class="record-btn">
-                        기록
+                    <button id="record-btn" class="record-btn btn">
+                        Record
                     </button>
-                    <button id="init-btn" class="init-btn">
-                        초기화
+                    <button id="reset-btn" class="reset-btn btn">
+                        Reset
                     </button>
                 </div>
 
-                <label id="stop-watch-timer" class="stop-watch-timer">00:00:00</label>
+                <h2 id="stop-watch-timer" class="stop-watch-timer">00:00:00</h2>
+
+                <div id="record">
+                    <ul id="record-section">
+                        
+                    </ul>
+                </div>
             </div>
 
         </div>
