@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" type="text/css" media="screen" charset="UTF-8">
+    <title>Stop Watch</title>
+</head>
+
+<body>
+        <div id="root">
+            <div id="clock" class="clock time-container">
+                <h1>Clock</h1>
+                <br>
+                <button id="toggle-stop" class="btn">Toggle</button>
+                <br>
+                <h2 id="clock-time">0000/00/00 00:00:00</h2>
+            </div>
+
+            <div id="stop-watch" class="stop-watch time-container" hidden >
+                <h1>Stop Watch</h1>
+                <button id="toggle-clock" class="btn">Toggle</button>
+                <div class="button-section">
+                    <button id="start-btn" class="start-btn btn">
+                        Start
+                    </button>
+                    <button id="stop-btn" class="stop-btn btn">
+                        Pause
+                    </button>
+                    <button id="record-btn" class="record-btn btn">
+                        Record
+                    </button>
+                    <button id="reset-btn" class="reset-btn btn">
+                        Reset
+                    </button>
+                </div>
+
+                <h2 id="stop-watch-timer" class="stop-watch-timer">00:00:00</h2>
+
+                <div id="record">
+                    <ul id="record-section">
+                        
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    <script src="index.js"></script>
+</body>
+
+</html>

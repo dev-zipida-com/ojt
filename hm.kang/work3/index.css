@@ -1,0 +1,40 @@
+.time-container{
+    border: 1px gray solid;
+    background-color: grey;
+    margin: auto;
+    width: 800px;
+    text-align: center;
+    
+}
+
+.btn{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    width: 150px;
+    height: 40px;
+    font: optional;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.reset-btn{
+    background-color: greenyellow;
+}
+
+.start-btn{
+    background-color: blue;
+}
+
+.stop-btn{
+    background-color: yellow;
+}
+
+.record-btn{
+    background-color: red;
+}
+
+
+
+
