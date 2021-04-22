@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" type="text/css" media="screen" charset="UTF-8">
+    <title>Stop Watch</title>
+</head>
+
+<body>
+        <div id="root">
+            <div id="clock" class="clock time-container">
+                <label>현재 시간</label>
+                <br>
+                <button id="toggle-stop">Toggle</button>
+                <br>
+                <label id="clock-time">0000/00/00 00:00:00</label>
+            </div>
+
+            <div id="stop-watch" class="stop-watch time-container" hidden >
+                <div>스톰워치!
+                </div>
+                <button id="toggle-clock">Toggle</button>
+                <div class="button-section">
+                    <button id="start-btn" class="start-btn">
+                        시작
+                    </button>
+                    <button id="stop-btn" class="stop-btn">
+                        중지
+                    </button>
+                    <button id="record-btn" class="record-btn">
+                        기록
+                    </button>
+                    <button id="init-btn" class="init-btn">
+                        초기화
+                    </button>
+                </div>
+
+                <label id="stop-watch-timer" class="stop-watch-timer">00:00:00</label>
+            </div>
+
+        </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
