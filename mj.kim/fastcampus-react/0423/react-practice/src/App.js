@@ -1,19 +1,13 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useReducer, useRef, useCallback } from "react";
 import UserList from "./UserList";
 import CreateUser from "./CreateUser";
 
-function CountActiveUsers(users) {
-  console.log("활성 사용자 수 세는중...");
-  return users.filter((user) => user.active).length;
-}
-
-function App() {
-  const [inputs, setInputs] = useState({
+const initialState = {
+  inputs: {
     username: "",
     email: "",
-  });
-
-  const [users, setUsers] = useState([
+  },
+  users: [
     {
       id: 1,
       username: "mj.kim",
@@ -32,75 +26,118 @@ function App() {
       email: "balam292@naver.com",
       active: false,
     },
-  ]);
+  ],
+};
 
-  const { username, email } = inputs;
+function reducer(state, action) {
+  switch (action.type) {
+    case "CHANGE_INPUT":
+      return {
+        ...state,
+        inputs: {
+          ...state.inputs,
+          [action.name]: action.value,
+        },
+      };
+    case "CREATE_USER":
+      return {
+        inputs: initialState.inputs,
+        users: state.users.concat(action.user),
+      };
+    case "REMOVE_USER":
+      console.log("REMOVE_USER ----- action.id ==== " + action.id);
+      return {
+        ...state,
+        users: state.users.filter((user) => user.id !== action.id),
+      };
+    case "TOGGLE_USER":
+      return {
+        ...state,
+        users: state.users.map((user) =>
+          user.id === action.id
+            ? {
+                ...user,
+                active: !user.active,
+              }
+            : user
+        ),
+      };
+    case "MODIFY_USER":
+      return {
+        ...state,
+        users: state.users.map((user) =>
+          user.id === action.modify_user.id
+            ? {
+                ...user,
+                username: action.modify_user.username,
+                email: action.modify_user.email,
+                active: !user.active,
+              }
+            : user
+        ),
+      };
 
-  const count = useMemo(() => CountActiveUsers(users), [users]);
+    default:
+      throw new Error("Unhandled action type");
+  }
+}
 
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
-
+function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
   const nextId = useRef(4);
 
-  const onCreate = () => {
-    setUsers(
-      users.concat({
+  const { users } = state;
+  const { username, email } = state.inputs;
+
+  const onChange = useCallback((e) => {
+    const { name, value } = e.target;
+    dispatch({
+      type: "CHANGE_INPUT",
+      name,
+      value,
+    });
+  }, []);
+
+  const onCreate = useCallback(() => {
+    dispatch({
+      type: "CREATE_USER",
+      user: {
         id: nextId.current,
-        username: username,
-        email: email,
-      })
-    );
-    console.log(nextId.current);
+        username,
+        email,
+      },
+    });
     nextId.current += 1;
-    setInputs({
-      username: "",
-      email: "",
+  }, [username, email]);
+
+  const onRemove = useCallback((id) => {
+    console.log("onRemove잘 들어옴 id==========" + id);
+    dispatch({
+      type: "REMOVE_USER",
+      id: id,
     });
-  };
+  }, []);
 
-  const onRemove = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
-  };
-
-  const onReset = () => {
-    setInputs({
-      username: "",
-      email: "",
+  const onToggle = useCallback((id) => {
+    dispatch({
+      type: "TOGGLE_USER",
+      id: id,
     });
-  };
+  }, []);
 
-  const onToggle = (id) => {
-    console.log("onToggle 클릭됨 !!!!! id ===== " + id);
-    setUsers(
-      users.map((user) =>
-        user.id === id ? { ...user, active: !user.active } : user
-      )
-    );
-  };
-
-  const onModify = (id, modifyUser) => {
-    console.log(
-      `onModify 실행 !!!    id=======${id},,,,,,,,modifyUser======${modifyUser.username}`
-    );
-    setUsers(
-      users.map((user) =>
-        user.id === id
-          ? {
-              ...user,
-              username: modifyUser.username,
-              email: modifyUser.email,
-              active: !user.active,
-            }
-          : user
-      )
-    );
-  };
+  const onModify = useCallback((id, modifyInput) => {
+    console.log("onModify!!");
+    console.log("id ======= " + id);
+    console.log("modifyInput ========= " + modifyInput.email);
+    dispatch({
+      type: "MODIFY_USER",
+      modify_user: {
+        id: id,
+        username: modifyInput.username,
+        email: modifyInput.email,
+      },
+    });
+  }, []);
 
   return (
     <>
@@ -109,7 +146,6 @@ function App() {
         email={email}
         onChange={onChange}
         onCreate={onCreate}
-        onReset={onReset}
       />
       <UserList
         users={users}
@@ -117,7 +153,7 @@ function App() {
         onToggle={onToggle}
         onModify={onModify}
       />
-      <div>활성 사용자 수 : {count}</div>
+      <div>활성 사용자 수 : 0</div>
     </>
   );
 }
