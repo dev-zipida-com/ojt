@@ -45,6 +45,7 @@ hr {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 .toDoListView hr {
 =======
 .todolistview hr {
@@ -52,6 +53,9 @@ hr {
 =======
 .toDoListView hr {
 >>>>>>> 4a51f0b (add work1-1)
+=======
+.toDoListView hr {
+>>>>>>> 49ff012 (완료)
   margin-top: 2rem;
   margin-bottom: 2rem;
   height: 2px;
@@ -59,6 +63,7 @@ hr {
   color: #bfbfbf;
   background-color: #bfbfbf;
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 .toDoListView {
@@ -71,4 +76,8 @@ hr {
 .toDoListView {
   padding-top: 1rem;
 >>>>>>> 4a51f0b (add work1-1)
+=======
+.toDoListView {
+  padding-top: 1rem;
+>>>>>>> 49ff012 (완료)
 }

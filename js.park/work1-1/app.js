@@ -3,6 +3,9 @@ const toDoinput = root.querySelector("#toDoinput");
 const toDoListView = root.querySelector("#toDoListView");
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 49ff012 (완료)
 const toDolist = root.querySelector("#toDolist");
 const toDoAdd = root.querySelector("#toDoAdd")
 
@@ -64,6 +67,7 @@ function printToDo(toDo) {
 
 function toDoInputText(e) {
   if (e.key === 'Enter' || e.type === 'click') {
+<<<<<<< HEAD
 =======
 =======
 const toDolist = root.querySelector("#toDolist");
@@ -133,12 +137,15 @@ function toDoInputText(e) {
 =======
   if (e.key === 'Enter' || e.type === 'click') {
 >>>>>>> 4a51f0b (add work1-1)
+=======
+>>>>>>> 49ff012 (완료)
     e.preventDefault()
     const toDo = toDoinput.value;
     if (!toDo) {
       alert('입력이 필요함');
     }
     else {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
       printToDo(toDo);
@@ -150,11 +157,16 @@ function toDoInputText(e) {
       printToDo(toDo);
       saveTodo(toDo);
 >>>>>>> 4a51f0b (add work1-1)
+=======
+      printToDo(toDo);
+      saveTodo(toDo);
+>>>>>>> 49ff012 (완료)
     }
     toDoinput.value="";
   }
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 function init() {
@@ -173,5 +185,11 @@ function init() {
 =======
   toDoAdd.addEventListener('click',toDoInputText);
 >>>>>>> 4a51f0b (add work1-1)
+=======
+function init() {
+  loadToDoList();
+  toDoinput.addEventListener('keydown',toDoInputText);
+  toDoAdd.addEventListener('click',toDoInputText);
+>>>>>>> 49ff012 (완료)
 }
 init()
