@@ -44,10 +44,14 @@ hr {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .toDoListView hr {
 =======
 .todolistview hr {
 >>>>>>> fecc952 (입력 후 하단 출력 기능)
+=======
+.toDoListView hr {
+>>>>>>> 4a51f0b (add work1-1)
   margin-top: 2rem;
   margin-bottom: 2rem;
   height: 2px;
@@ -56,10 +60,15 @@ hr {
   background-color: #bfbfbf;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 .toDoListView {
   padding-top: 1rem;
 =======
 .todolistview {
   padding-top: 1.5rem;
 >>>>>>> fecc952 (입력 후 하단 출력 기능)
+=======
+.toDoListView {
+  padding-top: 1rem;
+>>>>>>> 4a51f0b (add work1-1)
 }
