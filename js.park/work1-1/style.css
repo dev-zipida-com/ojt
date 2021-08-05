@@ -43,7 +43,11 @@ hr {
   background-color: #000;
 }
 
+<<<<<<< HEAD
 .toDoListView hr {
+=======
+.todolistview hr {
+>>>>>>> fecc952 (입력 후 하단 출력 기능)
   margin-top: 2rem;
   margin-bottom: 2rem;
   height: 2px;
@@ -51,6 +55,11 @@ hr {
   color: #bfbfbf;
   background-color: #bfbfbf;
 }
+<<<<<<< HEAD
 .toDoListView {
   padding-top: 1rem;
+=======
+.todolistview {
+  padding-top: 1.5rem;
+>>>>>>> fecc952 (입력 후 하단 출력 기능)
 }

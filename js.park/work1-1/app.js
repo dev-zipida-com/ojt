@@ -1,6 +1,7 @@
 const root = document.getElementById('root');
 const toDoinput = root.querySelector("#toDoinput");
 const toDoListView = root.querySelector("#toDoListView");
+<<<<<<< HEAD
 const toDolist = root.querySelector("#toDolist");
 const toDoAdd = root.querySelector("#toDoAdd")
 
@@ -62,22 +63,44 @@ function printToDo(toDo) {
 
 function toDoInputText(e) {
   if (e.key === 'Enter' || e.type === 'click') {
+=======
+
+function printTodo(toDo) {
+  const hr = document.createElement('hr');
+  console.log(toDo);
+  toDoListView.append(toDo)
+  toDoListView.appendChild(hr);
+}
+
+function toDoInputText(e) {
+  if (e.key === 'Enter') {
+>>>>>>> fecc952 (입력 후 하단 출력 기능)
     e.preventDefault()
     const toDo = toDoinput.value;
     if (!toDo) {
       alert('입력이 필요함');
     }
     else {
+<<<<<<< HEAD
       printToDo(toDo);
       saveTodo(toDo);
+=======
+      printTodo(toDo);
+>>>>>>> fecc952 (입력 후 하단 출력 기능)
     }
     toDoinput.value="";
   }
 }
 
+<<<<<<< HEAD
 function init() {
   loadToDoList();
   toDoinput.addEventListener('keydown',toDoInputText);
   toDoAdd.addEventListener('click',toDoInputText);
+=======
+
+function init() {
+  toDoinput.addEventListener('keydown',toDoInputText);
+>>>>>>> fecc952 (입력 후 하단 출력 기능)
 }
 init()
