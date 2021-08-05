@@ -43,7 +43,7 @@ hr {
   background-color: #000;
 }
 
-.todolistview hr {
+.toDoListView hr {
   margin-top: 2rem;
   margin-bottom: 2rem;
   height: 2px;
@@ -51,6 +51,6 @@ hr {
   color: #bfbfbf;
   background-color: #bfbfbf;
 }
-.todolistview {
-  padding-top: 1.5rem;
+.toDoListView {
+  padding-top: 1rem;
 }
