@@ -1,0 +1,17 @@
+.root table {
+  border-collapse: collapse;
+  width: 50%;
+  border-radius: 1em;
+  overflow: hidden;
+}
+thead {
+  background-color: #82b1e8;
+  text-align: left;
+}
+th, td {
+  border: none;
+  padding: 10px;
+}
+tr:nth-child(even) {
+  background-color: #eaeaea;
+}
