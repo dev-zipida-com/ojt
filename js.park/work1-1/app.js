@@ -46,7 +46,6 @@ function delTodo(e) {
   toDoList = toDoList.filter((toDo) => toDo.id !== Number(a));
   localStorage.setItem(TODOLIST, JSON.stringify(toDoList));
   saveToDoList();  
-  
 }
 
 function printToDo(toDo) {
