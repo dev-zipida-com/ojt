@@ -11,6 +11,7 @@ const toDoAdd = root.querySelector("#toDoAdd")
 
 const TODOLIST = "toDoList";
 let toDoList = [ ];
+let cnt = 0
 
 function loadToDoList() {
   const loadedToDoList = localStorage.getItem(TODOLIST);
@@ -27,7 +28,7 @@ function loadToDoList() {
 function saveTodo(toDo) {
   const toDoObj = {
     text: toDo,
-    id: toDoList.length+1,
+    id: cnt,
   };
   toDoList.push(toDoObj);
   localStorage.setItem(TODOLIST,JSON.stringify(toDoList));
@@ -45,6 +46,7 @@ function delTodo(e) {
   toDoList = toDoList.filter((toDo) => toDo.id !== Number(a));
   localStorage.setItem(TODOLIST, JSON.stringify(toDoList));
   saveToDoList();  
+  
 }
 
 function printToDo(toDo) {
@@ -54,13 +56,13 @@ function printToDo(toDo) {
   const delButton = document.createElement('input');
 
   delButton.setAttribute("type", "submit");
-  delButton.setAttribute("id", toDoList.length+1);
+  delButton.setAttribute("id", ++cnt);
   delButton.setAttribute("value", "Delete");
   delButton.addEventListener("click",delTodo);
   
   p.innerHTML = toDo;
   p.appendChild(delButton);
-  p.id = toDoList.length+1;
+  p.id = cnt;
   p.appendChild(hr);
   toDolist.appendChild(p);
 }
