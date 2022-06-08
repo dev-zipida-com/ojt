@@ -31,7 +31,7 @@
 #
 
 > 리터럴 표기법
-<pre><code>
+```javascript
 // 숫자 리터럴
 1004
 
@@ -53,7 +53,7 @@ undefined
 
 // 함수 리터럴
 function() {}
-</code></pre>
+```
 
 # 
 
@@ -130,11 +130,11 @@ function() {}
 
 > 조건식 ? 조건식이 true일때 반환할 값 : 조건식이 false일때 반환할 값
 
-<pre><code>
+```javascript
 x > y ? "Hello" : "Bye"   
 // x가 y보다 크다면 "Hello" 반환   
 // x가 y보다 작다면 "Bye" 반환
-</code></pre>
+```
 
 #
 
@@ -151,22 +151,20 @@ x > y ? "Hello" : "Bye"
 ### 타입 변환
  자바스크립트의 모든 값에는 타입이 있습니다. 값의 타입은 개발자가 의도적으로 변환할 수 있는데, 이것을 명시적 타입 변환(Explicit coercion) 또는 타입 캐스팅(Type casting) 이라고 합니다.   
 
- <pre><code>
+ ```javascript
  var x = 10;
  var str = x.toString(); // 숫자를 문자열로 변환
  console.log(typeof str); // string
- </code></pre>
+ ```
 
 자바스크립트는 동적 타입 언어로 개발자의 의도와 상관없이 자바스크립트 엔지에 의해 암묵적으로 타입이 변환되기도 합니다. 이를 암묵적 타입 변환(Implicit coercion) 또는 타입 강제 변환(Type coercion) 이라고 합니다.
 
-<pre><code>
+```javascript
 var x = 10;
 var str = x + ''; // 숫자 타입을 문자열과 합치면 문자열로 변환된다.
 console.log(typeof str); // string
 console.log(x) // 10
-</code></pre>
-
-#
+```
 
 ### 객체
 자바스크립트는 객체 기반의 스크립트 언어이며 자바스크립트를 이루도 있는 거의 모든 것이 객체입니다. 자바스크립트 객체는 키(key) 와 값(value)으로 구성된 프로퍼티(Property)의 집합입니다.
@@ -174,8 +172,7 @@ console.log(x) // 10
 #### 프로퍼티
 프로퍼티는 키와 값으로 구성되고 프로퍼티 키로 유일하게 식별할 수 있습니다. 즉 키는 프로퍼티를 식별하기 위한 식별자 입니다. 프로퍼티 키를 중복 선언하면 나중에 선언한 프로퍼티가 할당됩니다.
 
-<pre>
-<code>
+```javascript
 var person = {
   name: 'Lee',
   gender: 'male',
@@ -183,22 +180,22 @@ var person = {
     console.log('Hello Im' + this.name );
   }
 }
-</code>
-</pre>
+```
+
+#
 
 ### 객체 접근
 객체의 프로퍼티 값에 접근하는 방법은 마침표 표기법과 대괄호 표기법이 있습니다.
-<pre><code>
+```javascript
 console.log(person.name) // Lee
 console.log(person["name"]) // Lee
-</code></pre>
+```
 대괄호 표기법을 사용하는 경우, 대괄호 내에 들어가는 프로퍼티 이름은 반드시 문자열이어야 합니다.
 객체에 존재하지 않는 프로퍼티를 참조하면 undefined를 반환합니다.
    
 #### for-in 문
 for-in 문을 이용해서 객체에 포함된 프로퍼티에 대한 루프를 수행할 수 있습니다.
-<pre>
-<code>
+```javascript
 var person = {
   'first-name': "WJ",
   'last-name': "Kim",
@@ -213,14 +210,15 @@ for( var key in person ){
 first-name: WJ
 lasat-name: Kim
 gender: male 
-</code>
-</pre>
+*/
+```
+
+#
 
 ### Pass-by-reference
 object type을 객체 타입 또는 참조 타입이라 합니다. 객체의 모든 연산이 실제 값이 아닌 참조값으로 처리됨을 의미합니다. 원시 타입은 값이 한번 정해지면 변경할 수 없지만, 객체는 프로퍼티를 추가, 변경, 삭제가 가능합니다.   
 객체 타입은 동적으로 변화할 수 있으므로 어느 정도의 메모리 공간을 확보해야 하는지 예측할 수 없기 때문에 런타임에 메모리 공간을 확보하고 메모리의 힙 영역에 저장됩니다.
-<pre>
-<code>
+```javascript
 var foo = {
   val: 10
 }
@@ -232,8 +230,7 @@ console.log(foo === bar); // true
 bar.val = 20;
 console.log(foo.val, bar.val); // 20 20
 console.log(foo === bar); // true
-</code>
-</pre>
+```
 foo는 객체 자체를 저장하고 있지 않고 객체의 참조값(address)를 저장합니다.   
 bar에 foo를 할당하면 foo가 가르키는 참조값을 bar도 똑같이 저장됩니다. 즉, 두 변수 모두 동일한 객체를 참조하고 있습니다. 따라서 val값을 변경하면 두 변수 모두 변경된 값을 참조하게 됩니다.
 
@@ -241,58 +238,51 @@ bar에 foo를 할당하면 foo가 가르키는 참조값을 bar도 똑같이 저
 함수란 어떤 작업을 수행하기 위해 필요한 문(statement) 들의 집합을 정의한 코드 블록입니다. 함수는 이름과 매개변수를 가지며 필요한 때에 호출하여 코드 블록에 담긴 문들을 일괄적으로 실행합니다. 함수는 호출에 의해 실행되고 여러번 호출할 수 있습니다.   
 #### 함수 정의
 > 함수 선언문
-<pre>
-<code>
+```javascript
 function square(number) {
   return number * number;
 }
-</code>
-</pre>
+```
 
 > 함수 표현식
-<pre>
-<code>
+```javascript
 var square = function(number) {
   return number * number;
 }
 
 var foo = square;
-</code>
-</pre>
+```
 
 함수 표현식은 함수명을 생략할 수 있습니다. 이런 함수를 익명 함수(anonymous function)이라고 합니다. 함수 표현식에서는 함수명을 생략하는 것이 일반적입니다.   
 함수는 일급객체이기 때문에 변수에 할당할 수 있는데 이 변수는 함수명이 아니라 할당된 함수를 가리키는 참조값을 저장합니다. 함수를 호출할 때 함수를 가리키는 변수명을 사용합니다.
 
 #### 함수 호이스팅
-<pre>
-<code>
+```javascript
 var res = square(5); // 25
 
 function square(number) {
   return number * number;
 }
-</code>
-</pre>
+```
 함수 선언문으로 함수가 정의되기 이전에 함수 호출이 가능합니다. 함수 선언문의 경우 함수 선언의 위치와 상관없이 코드 내 어느 곳에서든지 함수 호출이 가능한다, 이를 함수 호이스팅이라고 합니다.   
 함수 선언문으로 정의된 함수는 함수 선언, 초기화, 할당이 한번에 이루어집니다. 따라서 함수 선언의 위치와는 상관없이 소스 내 어느 곳에서든지 호출이 가능합니다.
 
-<pre>
-<code>
+```javascript
 var res = square(5); // TypeError: square is not a function
 
 function square(number) {
   return number * number;
 }
-</code>
-</pre>
+```
 함수 표현식의 경우에는 함수 선언문과 달리 TypeError가 발생합니다. 함수 표현식의 경우 함수 호이스팅이 하닌 변수 호이스팅이 발생합니다. 변수 호이스팅은 변수 생성 및 초기화와 할당이 분리되어 진행되기 때문에 에러가 발생합니다.
+
+#
 
 ### 프로토타입
 자바스크립트는 프로토타입 기반 객체지향 프로그래밍 언어입니다. 클래스 기반 객체지향 프로그래밍 언어는 객체 생성 이전에 클래스를 정의하고 이를 통해 객체를 생성합니다. 반면 프로토타입 기반 객체지향 프로그래밍 언어는 클래스 없이 객체를 생성할 수 있습니다.   
 자바스크립트의 모든 객체는 자신의 부모 역할을 담당하는 객체와 연결되어 있습니다. 마치 객체 지향의 상속 개념과 같이 부모 객체의 프로퍼티 또는 메소드를 상속받아 사용할 수 있는데, 이러한 부모 객체를 프로토타입 객체 또는 프로토타입이라고 합니다.   
 프로토타입을 쉽게 이해하기 위해서는 부모의 유전자라고 생각하면 이해하기 쉽습니다. 객체에서 어떤 프로퍼티를 찾을 때 자식 객체에 존재하지 않는다면 부모 객체의 유전자 즉, 프로토타입까지 확인을 합니다. 그리고 이것을 프로토타입 체인이라고 합니다.
-<pre>
-<code>
+```javascript
 function person(name, age){
   this.name = name;
   this.age = age;
@@ -305,13 +295,13 @@ console.log(kim.gender) // undefined
 person.prototype.gender = 'male'
 console.log(kim) // {name: 'kim', age: 30}
 console.log(kim.gender) // 'male'
-</code>
-</pre>
+```
+
+#
 
 ### 스코프
 스코프는 범위를 나타내는 말로 자바스크립트의 스코프는 변수에 접근할 수 있는 범위를 말합니다.
-<pre>
-<code>
+```javascript
 var a = 10; // 전역 스코프
 
 function foo() { //지역(함수) 스코프
@@ -321,8 +311,9 @@ function foo() { //지역(함수) 스코프
 
 foo(); // 100
 console.log(a) // 10
-</code>
-</pre>
+```
+
+#
 
 ### 클로저
 클로저는 MDN에서 다음과 같이 정의하고 있습니다.
@@ -330,8 +321,7 @@ console.log(a) // 10
 
 이해하기 어렵게 설명이 되어 있는데, 쉽게 설명한다면   
 함수 내에서 함수를 리턴할때, 외부함수의 실행이 끝났어도 내부함수가 외부함수의 환경 즉, 변수를 기억하고 있다는 것입니다.
-<pre>
-<code>
+```javascript
 function outer() {
   let count = 0;
 
@@ -345,8 +335,7 @@ var start = outer();
 start(); // 1
 start(); // 2
 start(); // 3
-</code>
-</pre>
+```
 #### 클로저 함수의 장점
 - 데이터를 보존할 수 있다.
   - 외부함수의 실행이 끝나더라도 외부함수의 변수를 사용할 수 있습니다.
