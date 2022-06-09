@@ -1,4 +1,3 @@
-// localStorage.setItem('todo', '[]');
 // 태그 생성
 const root = document.getElementById('root');
 
@@ -42,7 +41,7 @@ root.appendChild(ul);
 makeTodoList();
 
 
-
+// todo 추가
 function addTodo() {
   let todo = document.getElementById('add-todo');
 
@@ -66,6 +65,7 @@ function addTodo() {
   todo.value = '';
 }
 
+// todo 삭제
 function deleteTodo(e) {
   const delNode = e.target.parentNode;
   const delId = delNode.id;
@@ -79,12 +79,14 @@ function deleteTodo(e) {
   ul.removeChild(delNode);
 }
 
+// enter 눌렀을 때 todo 추가
 function pressEnter(e) {
   if(e.key === 'Enter') {
     addTodo();
   }
 }
 
+// todo 목록 생성
 function makeTodo(item) {
   const li = document.createElement('li');
   li.id = item.todoId;
@@ -103,6 +105,7 @@ function makeTodo(item) {
   ul.appendChild(li);
 }
 
+// 전체 todo list 생성
 function makeTodoList() {
   const list = getList();
 
@@ -113,10 +116,12 @@ function makeTodoList() {
   }
 }
 
+// todo list 받아오기
 function getList() {
   return JSON.parse(localStorage.getItem('todo'));
 }
 
+// todo list 세팅
 function setList(list) {
   const strList = JSON.stringify(list);
   localStorage.setItem('todo', strList);
