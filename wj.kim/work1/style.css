@@ -1,0 +1,49 @@
+#root {
+  width: 300px;
+}
+
+h4 {
+  border-bottom: 3px solid black;
+  margin-bottom: 10px;
+}
+
+.button {
+  border: 0;
+  outline: 0;
+  background-color: white;
+  color: rgba(30, 22, 54, 0.6);
+	/* box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset; */
+}
+
+.button:hover {
+  cursor: pointer;
+  color: rgb(23, 22, 22);
+}
+
+#todo-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  /* position: relative; */
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #cccc;
+  /* height: 100%; */
+  /* line-height: 0; */
+}
+
+#input-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+#add-todo {
+  width: 80%;
+  height: 22px;
+}
