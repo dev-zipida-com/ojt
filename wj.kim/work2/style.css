@@ -1,0 +1,29 @@
+table {
+  /* justify-content: space-around; */
+  border-top: 1px solid #cccccc;
+  border-radius: 10px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #cccccc;
+  padding: 12px;
+  text-align: center;
+}
+
+th {
+  color: #ffffff;
+  background-color: rgb(38, 44, 72);
+}
+
+/* td {
+  background-color: rgb(217, 227, 251);
+} */
+
+tbody tr:nth-child(2n) {
+  background-color: #fafafa;
+}
+tbody tr:nth-child(2n + 1) {
+  background-color: #eeebeb;
+}
