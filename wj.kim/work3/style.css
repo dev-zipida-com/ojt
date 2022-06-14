@@ -1,0 +1,42 @@
+#root {
+  width: 80%;
+  background-color: #cccccc;
+  padding: 1em;
+  text-align: center;
+}
+
+.button {
+  width: 100px;
+  height: 35px;
+  cursor: pointer;
+  font-size: 15px;
+  border: none;
+  color: white;
+  padding: 5px;
+  margin: 4px;
+  border-radius: 3px;
+}
+
+#toggle {
+  background-color: rgb(90, 114, 245);
+}
+
+#start {
+  background-color: rgb(243, 78, 78);
+}
+
+#pause {
+  background-color: rgb(89, 196, 160);
+}
+
+#record {
+  background-color: rgb(220, 179, 13);
+}
+
+#reset {
+  background-color: rgb(46, 180, 46);
+}
+
+#list {
+  text-align: left;
+}
