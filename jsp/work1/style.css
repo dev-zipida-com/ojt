@@ -1,0 +1,56 @@
+#root {
+  display: block;
+  width: 400px;
+  margin: 100px auto 0;
+}
+
+#addBox{
+  padding-top: 40px;
+  border-bottom: solid 2px black;
+}
+
+#itemText{
+  width: 330px;
+  height: 30px;
+  border: 1px solid #A0A0A0;
+  border-radius: 5px;
+  margin-top: 15px;
+  float: left;
+}
+
+#button1{
+  border: 0px;
+    background-color: transparent;
+    font-size: 14px;
+    color: black;
+    margin: 22px 0px 22px 0px;
+    padding-left: 20px;
+    float: right;
+}
+
+#delBtn{
+  border: white;
+  background-color: white;
+  float: right;
+}
+
+#textBox{
+  padding-top: 10px;
+  padding-bottom: 50px;
+}
+
+#list > li {
+  list-style-type: none;
+  padding: 20px 10px 20px 20px;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+#list{
+  border-top: solid 2px black;
+  margin: 0;
+  padding: 0;
+}
+/* 
+#todoBox{
+  border-top: solid 2px black;
+} */

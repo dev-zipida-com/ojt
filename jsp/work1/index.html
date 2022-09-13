@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="UTF-8">
+  <title>Work1 todo</title>
+</head>
+<body>
+  <div id="root">
+    <h1 id="headTitle">TODO APP</h1>
+    <div id="addBox">
+      <h2>ADD ITEM</h2>
+    </div>
+    <div id="textBox">
+      <input id="itemText" onkeyup="if(window.event.keyCode==13){insertItem(insertItemText.value)}"/>
+      <button id="button1" onclick="insertItem(insertItemText.value)">save</button>
+    </div>
+
+
+    <h2>TODO</h2>
+    <div id="todoBox">
+      <ul id="list">
+
+      </ul>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
