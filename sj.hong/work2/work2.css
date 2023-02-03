@@ -1,3 +1,41 @@
+.refresh {
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 10px 0px 10px 0px;
+}
+
 #table {
+  display: block;
+  border-radius: 20px;
+  width : 800px;
+  text-align: center;
+  border-collapse: collapse;
   display: none;
+}
+
+th {
+  font-size: 20px;
+  color: white;
+  background-color: rgb(58, 48, 79);
+  width: 800px;
+  height: 40px;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+td {
+  padding: 15px 0px;
+  font-size: 18px;
+}
+
+.id {
+  border-top-left-radius: 20px;
+}
+
+.profile_image {
+  border-top-right-radius: 20px;
+}
+
+tr:nth-child(odd) {
+  background-color: rgb(240, 240, 240);
 }
