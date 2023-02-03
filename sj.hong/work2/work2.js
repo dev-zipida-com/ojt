@@ -52,7 +52,7 @@ root.appendChild(table);
 
 refreshButton.addEventListener('click', clickRefresh)
 
-function clickRefresh() {
+async function clickRefresh() {
   document.getElementById('table').style.display = 'block';
 
   fetch('https://dummy.restapiexample.com/api/v1/employees', {
@@ -89,11 +89,9 @@ function clickRefresh() {
           table.appendChild(dataTable);
         });
       }
-  };
-    
-
-  // ).catch(err => {
-  //   alert(err);
-  // })
+    };
+  })
+  .catch(err => {
+  alert('잠시 후 다시 시도해주세요.');
 })
 }
