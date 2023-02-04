@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>work2</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    // API 요청을 통해 받아들이는 JSON 정보로부터 validation을 수행합니다.
+    function checkValidation(todo){
+      const eUserId = todo.userId
+      const ePostId = todo.id
+      const eTitle = todo.title
+      const eComplete = todo.completed
+
+      // 조건에 따라 Error message를 작성합니다.
+      const errorUserId = `validationError: errorType \"userId\"`
+      const errorPostId = `validationError: errorType \"postId\"`
+      const errorTitle = `validationError: errorType \"title\"`
+      const errorComplete = `validationError: errorType \"complete\"`
+
+      const returnValue = []
+
+      // 하기한 조건에 해당하면 ErrorMessage를 returnValue Array에 Push합니다.
+      if(eUserId < 1 || eUserId % 1 != 0 || typeof eUserId != "number" || eUserId == undefined){
+        returnValue.push(errorUserId)
+      }
+      if(ePostId <= 0 || typeof ePostId != "number" || ePostId == undefined){
+        returnValue.push(errorPostId)
+      }
+      if(typeof eTitle != "string" || eTitle == undefined){
+        returnValue.push(errorTitle)
+      }
+      if(typeof eComplete != "boolean" || eComplete == undefined){
+        returnValue.push(errorComplete)
+      }
+      
+      // 만약 에러가 있다면 관련 정보와 ErrorMessages를 반환합니다.
+      if(returnValue.length != 0){
+        const errorMessage = `Error: todo:${todo}, returnValue: ${returnValue}`
+        throw new Error(errorMessage)
+      }
+
+      // 에러가 없다면 정상 인수값과 같은 값을 반환합니다.
+      return {eUserId, ePostId, eTitle, eComplete}
+    }
+  </script>
+  <script>
+    // root와 table Element를 만듭니다.
+    const root = document.getElementById("root")
+    const table = document.createElement("table")
+
+    // table의 style을 정의합니다. 
+    table.className = "table-style"
+    const style = document.createElement("style")
+    // rounding table options work well because of "overflow: hidden". why?
+    style.innerHTML = `
+    .table-style {
+      width: 80%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      border-radius: 1em;
+      overflow: hidden; 
+    }`
+    root.appendChild(style)
+
+    // refreshButton의 이벤트 리스너는 refreshData 함수를 실행합니다.
+    // 내장 모듈 fetch를 통해 외부 API로부터 관련 정보를 받아옵니다.
+    // 요구받은 주소의 경우 CORS Issue가 발생하였습니다. 로컬 개발 단계에서의 API 요청의 경우 (Http protocol, IP, port번호 부재 등의 사유로)CORS 이슈가 발생할 수 있으므로
+    // liveServer extention 사용하였으나, 같은 이슈가 반복되는 것을 확인하였습니다. 주소창에 API를 Copy & Paste하는 경우, 데이터를 잘 받아오는 것 처럼 보이므로
+    // 일차적으로 서버사이드의 Access-Control-Allow-Origin option을 확인할 필요가 있을 것 같습니다.
+
+    const refreshData = async() => {
+      await fetch("https://jsonplaceholder.typicode.com/todos", {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        // 만약 status가 400 이상이라면, 더 진행하지 않고 에러메시지를 반환합니다.
+        if(response.status >= 400){
+          const errorMessage = "ERROR: HTTP STATUS " + response.status
+          throw new Error(errorMessage)
+        }
+        return response.json()
+      })
+      .then(todos => {
+        // 새로고침을 위해 table을 초기화합니다.
+        table.innerHTML = "";
+
+        // table의 Header를 정의합니다.
+        const headerRow = document.createElement("tr")
+        const headerCellUserId = document.createElement("th")
+        const headerCellPostId = document.createElement("th")
+        const headerCellTitle = document.createElement("th")
+        const headerCellComplete = document.createElement("th")
+
+        headerCellUserId.textContent = "UserId"
+        headerCellPostId.textContent = "PostId"
+        headerCellTitle.textContent = "Title"
+        headerCellComplete.textContent = "Complete"
+
+        headerRow.appendChild(headerCellUserId)
+        headerRow.appendChild(headerCellPostId)
+        headerRow.appendChild(headerCellTitle)
+        headerRow.appendChild(headerCellComplete)
+        
+        headerRow.style.backgroundColor = "#0e0f37"
+        headerRow.style.color = "white"
+        headerRow.style.height = "70px"
+
+        table.appendChild(headerRow)
+
+        let counter = 0
+
+        // table data를 정의합니다. 
+        todos.forEach(todo => {
+          // validation을 수행합니다. 
+          const {eUserId, ePostId, eTitle, eComplete} = checkValidation(todo)
+
+          // table row와 data를 정의 및 append합니다.
+          const tableRow = document.createElement("tr")
+          const userId = document.createElement("td")
+          const postId = document.createElement("td")
+          const title = document.createElement("td")
+          const complete = document.createElement("td")
+
+          userId.style.textAlign = "center"
+          userId.style.color = "#5F5F5F"
+          userId.style.padding = "6px"
+          postId.style.textAlign = "center"
+          postId.style.color = "#5F5F5F"
+          postId.style.padding = "6px"
+          title.style.color = "#5F5F5F"
+          title.style.padding = "6px"
+          complete.style.textAlign = "center"
+          complete.style.color = "#5F5F5F"
+          complete.style.padding = "6px"
+
+
+          userId.textContent = eUserId
+          postId.textContent = ePostId
+          title.textContent = eTitle
+          complete.textContent = eComplete
+
+          tableRow.appendChild(userId)
+          tableRow.appendChild(postId)
+          tableRow.appendChild(title)
+          tableRow.appendChild(complete)
+
+          // even row마다 회색 background를 가집니다.
+          if(counter % 2 == 0){
+            tableRow.style.backgroundColor = "#E2E2E2"
+          }
+          counter += 1
+
+          // 테이블에 새로 정의한 row를 각각 append합니다. 
+          table.appendChild(tableRow)
+        })
+      })
+    }
+
+    // refreshButton을 정의합니다.
+    const refreshButton = document.createElement("button");
+    refreshButton.textContent = "Refresh";
+    refreshButton.style.height = "50px"
+    refreshButton.style.width = "100px"
+    refreshButton.style.backgroundColor = "transparent"
+    refreshButton.style.borderColor = "#E2E2E2"
+    refreshButton.style.borderRadius = "5px"
+    refreshButton.style.color = "gray"
+    refreshButton.style.margin = "12px"
+
+    refreshButton.addEventListener("click", refreshData);
+
+    // 루트에 버튼과 테이블을 append합니다.
+    root.appendChild(refreshButton);
+    root.append(table)
+  </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    const root = document.getElementById("root")
+    const templete = document.createElement("div")
+    templete.style.display = "flex"
+    templete.style.flexDirection = "row"
+    templete.style.justifyContent = "center"
+    templete.style.marginTop = "100px"
+
+    const clockDisplay = document.createElement("div");
+    clockDisplay.className = "clockDisplay";
+    clockDisplay.style.display = "flex"
+    clockDisplay.style.flexDirection = "column"
+
+    const clockTitle = document.createElement("h1")
+    clockTitle.textContent = "CLOCK"
+    clockTitle.style.textAlign = "center"
+    clockDisplay.appendChild(clockTitle)
+
+    const clockTimer = document.createElement("h3")
+    clockTimer.textContent = "0000-00-00 00:00:00"
+    clockTimer.style.textAlign = "center"
+    clockDisplay.appendChild(clockTimer)
+
+    const toggleBtn = document.createElement("button");
+    toggleBtn.textContent = "Toggle";
+
+    const TimerDisplay = document.createElement("h1")
+    TimerDisplay.textContent = "TIMER"
+
+    const stopBtn = document.createElement("button");
+    stopBtn.textContent = "Stop";
+    stopBtn.style.display = "none";
+
+    let startTime;
+    let intervalId;
+
+    function updateClock() {
+      clockDisplay.textContent = new Date().toLocaleTimeString();
+    }
+
+    function updateTimer() {
+      const now = new Date();
+      const elapsedTime = now - startTime;
+      clockDisplay.textContent = elapsedTime;
+    }
+
+    function toggleClockTimer() {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+
+      if (clockDisplay.textContent === new Date().toLocaleTimeString()) {
+        startTime = new Date();
+        stopBtn.style.display = "inline-block";
+        intervalId = setInterval(updateTimer, 1);
+      } else {
+        stopBtn.style.display = "none";
+        intervalId = setInterval(updateClock, 1000);
+      }
+    }
+
+    function stopTimer() {
+      clearInterval(intervalId);
+      intervalId = null;
+      stopBtn.style.display = "none";
+    }
+
+    // Add event listeners to the buttons
+    toggleBtn.addEventListener("click", toggleClockTimer);
+    stopBtn.addEventListener("click", stopTimer);
+
+    // Append the clock display, toggle button, and stop button to the root element
+    clockDisplay.appendChild(toggleBtn)
+
+    templete.appendChild(clockDisplay)
+    root.appendChild(templete)
+
+    // Start with the clock display
+    intervalId = setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>

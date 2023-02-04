@@ -12,10 +12,8 @@
       [고차 함수형(High-order function) 반복연산자](#고차-함수형high-order-function-반복연산자-출처2)
   [3. 전개연산자](#전개연산자)
   [4. 화살표 함수](#화살표-함수)
-  [5. 객체와 클래스](#객체와-클래스)
-  [6. 클로져](#클로져)
-  [7. 비동기 처리](#비동기-처리)
-  [8. 브라우저의 렌더링](#브라우저의-렌더링)
+  [5. 클로져](#클로져)
+  [6. 클래스](#클래스)
 
 ===
 
@@ -93,7 +91,7 @@
   console.log(b); /* b는 지역 스코프 변수이므로 참조할 수 없습니다. ReferenceError: b is not defined */
   ```
 
-  * 호이스팅은 자바스크립트의 특징 중 하나로, 함수 안에서 변수를 선언하면 **어떤 위치에 있던** 그 함수의 시작 위치로 끌어올리는 현상입니다(즉 .js file도 결국 함수와 같을 것입니다).
+  * 호이스팅은 자바스크립트의 특징 중 하나로, 함수를 선언하면 **어떤 위치에 있던** 그 함수의 시작 위치로 끌어올리는 현상입니다(즉 .js file도 결국 함수와 같을 것입니다).
   ```javascript
   function test(){
       console.log(a) // 초기화 후 "hoist"라는 string이 할당되기 전이므로, undefined가 출력됩니다.
@@ -116,7 +114,7 @@
   test()
   ```
 
-  * 변수 뿐 아니라 함수도 호이스팅 되지만, 함수의 경우, 함수 스코프 내부에 선언된 변수 또는 함수는 즉시 실행(선언, 초기화 및 값 할당)됩니다. 이유는 아래에 후술하겠습니다. 
+  * 변수 뿐 아니라 함수도 호이스팅 되지만, 함수 선언식의 경우 선언과 초기화가 동시에 이루어 집니다.
   ```javascript
   test()
 
@@ -137,7 +135,7 @@
   test()
   ```
 
-  * 자바스크립트는 코드를 실행하기 위해 일종의 전처리 과정을 거칩니다. 이 전처리 과정을 실행 컨텍스트 과정이라고 부릅니다. 
+  * 자바스크립트는 코드를 실행하기 위해 일종의 전처리 과정을 거칩니다.
   * 자바스크립트는 전처리 과정에서 미리 코드 내부의 변수들과 함수들을 파악합니다. 그리고 그 변수들과 함수들을 위한 메모리 공간을 할당하고, 초기화하는 과정을 거칩니다. 이 과정을 **파싱(Parsing)**이라고 합니다.
   * 변수들과 함수들은 자신의 직접 상위 객체의 멤버로 포섭됩니다(**스코프 등록**).
   * 파싱은 전역 수준에서 먼저 일어나고, 전역 수준의 파싱이 끝난 뒤 코드가 실행 단계로 들어서면, 자바스크립트는 함수를 만날 때마다 다시 그 함수의 지역 수준에서 파싱 과정을 거칩니다.  
@@ -352,29 +350,134 @@ for (let value in obj) {
 
 ### Spread 문법
 * Spread 문법(Spread Syntax, ...)는 대상을 개별 요소로 분리한 뒤, 새로운 배열을 생성하여 반환합니다. Spread 문법의 대상은 이터러블해야 합니다.
-* Spread 문법을 인수로 사용하는 경우, 함수의 인수에 사용할 수 있는 rest parameter와 구분하여 사용해야 합니다. 
+* Spread 문법을 인수로 사용하는 경우, 함수의 인수에 사용할 수 있는 ...rest 문법과 구분하여 사용해야 합니다. 
+* ...rest 문법은 함수의 인수 끝 부분에 위치해야하며, 정해지지 않은 크기의 인수를 받을 때 유용합니다. 
+```javascript
+test(1, 2, 3)
+function test(...rest){ // rest 문법
+  console.log(Array.isArray(rest)) // true
+  console.log(rest) // test 함수의 parameter는 number type의 세 변수지만, array 형태로 받습니다. eg. [1, 2, 3] 
+}
+```
+* 유사한 표현형(...)인 Spread 문법을 parameters에 위치하게 하면, 그 함수는 인수로 parameter 배열의 각 값을 개별적인 인자로 받아 처리합니다. 
+```javascript
+const parameters = [1, 2, 3]
+test(...parameters) // Spread 문법
+
+function test(x, y, z) {
+  console.log(x, y, z) // 1, 2, 3
+}
+```
 
 ### 화살표 함수
-
-### 객체와 클래스
-#### 프로토타입 패턴 상속
+* 화살표 함수는 ES6 이후 도입된 함수의 간략한 표현형입니다. 보다 직관적으로 함수의 입출력을 표현할 수 있다는 장점이 있습니다.
+```javascript
+let promise = new Promise((resolve, reject) => { // 인수로 arrow function이 사용된 경우
+  console.log(resolve, reject)
+})
+```
+* 화살표 함수는 변수에 함수를 할당하지 않는 한 익명 함수로 사용할 수 있습니다. (일반 function / arrow function -> GC와 상관 XXX!)
+* 화살표 함수는 일반 함수와 달리 호이스팅 단계에서 처리되지 않고, 코드 실행 단계에서 함수가 수행 및 할당됩니다. 이러한 특징 때문에 화살표 함수 내부에서 this 표현을 사용하는 경우, 상위 스코프(window 객체)의 this 표현과 같은 내용물을 가리킬 수 있기 때문에 주의해야 합니다. 
 
 ### 클로져
+#### 실행 컨텍스트 
+* 실행 컨텍스트(Execution context)란, **자바스크립트 코드가 실행되고 연산되는 범위**를 나타내는 추상적인 개념입니다. [^출처3]
+* 우리가 코드를 작성하고 실행한다면 실행 컨텍스트(Execution Context) 내부에서 실행되고 있는 것입니다. 즉 코드들이 실행되기 위한 환경이자 하나의 박스이자 컨테이너라 볼 수 있습니다.
+* 실행 컨택스트 단계에서 JS engine은 변수와 함수의 스코프, "this" keyword가 가리키는 것, 그리고 변수 및 함수의 값 등을 정의(definition)합니다. 우리가 JS code 내부에서 함수를 호출할 때 마다, 새로운 실행 컨텍스트가 생성되고 JS call stack의 최상단에 새로 위치하게 됩니다. 
+* 실행 컨텍스트는 지금 실행되는 코드의 **현재 정보(가령 지역 변수나 함수의 인수 등)을 기억**하고 있습니다. call stack 최상단에 위치한 현재의 실행 컨텍스트는, 새로운 함수가 실행될 때 마다 언제든지 교체될 수 있으며, 이전의 실행 컨텍스트는 함수의 결과값이 return될 때 까지 보존(save)되었다가 함수 실행이 끝난 후 다시 call stack으로 돌아옵니다(비동기 처리 by Event loof). 
 
-### 비동기 처리
-* callback function
-* Promise 객체
-* async / await
+#### 클로져(closure)
+* 클로져는 비공개 변수를 가질 수 있는 환경에 있는 함수로, 1. 함수 스코프 내부 변수, 함수의 현재 주변 정보(lexical context)를 보존하기 위하여, 2. 변수의 은닉성을 보전하기 위하여 사용할 수 있습니다. 다음은 클로져의 한 예입니다.
+```javascript
+var counter = function() {
+  var count = 0;
+  function changeCount(number) {
+    count += number;
+  }
+  return {
+    // clousures here
+    increase: function() {
+      changeCount(1);
+    },
+    decrease: function() {
+      changeCount(-1);
+    },
+    show: function() {
+      alert(count);
+    }
+  }
+};
 
-### 브라우저의 렌더링
+var counterClosure = counter();
+counterClosure.increase();
+counterClosure.show(); // 1
+counterClosure.decrease();
+counterClosure.show(); // 0
+```
+* 단점으로는 잘못 사용했을 시 성능 문제와 메모리 문제가 발생할 수 있습니다. closure의 비공개 변수는 자바스크립트에서 언제 메모리 관리를 해야할 지 모르기 때문에 자칫 메모리 낭비로 이어질 수 있습니다. [^출처4]
+* ES6 이후, JS가 (프로토타입 기반이 아닌)class 기능을 제공함으로서, 변수 은닉성을 보전하는 새로운 방법이 제안되었으므로, 메모리 누수 여지가 있는 클로져를 계속 사용해야 하는지에 대하여 다양한 의견이 오가고 있습니다.
 
+### 클래스
+#### 객체
+* JS에서 객체(object)는 프로퍼티(property)의 집합입니다. 프로퍼티는 고유한 키(key)와 그에 매칭되는 값(value)으로 구성되어 있습니다. 프로퍼티는 객체가 생성('{}' 또는 'new Object()')된 이후 자유롭게 생성, 삭제, 수정될 수 있습니다.
+#### 클래스 (after es6)
+* class는 객체를 생성하기 위한 청사진을 만드는 문법 표현입니다. JS에서 class는 역시 하나의 객체이며, es6 이전 class 구현을 위해 사용하던 (프로토타입 객체 + 클로져)의 Syntax sugar이자, 호이스팅됩니다(객체니까!).
+```javascript
+class Person {
+  constructor(name, age) { // constuctor 선언
+    this.name = name;
+    this.age = age;
+  }
 
+  sayHello() {
+    console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`);
+  }
+}
 
+const person = new Person('John Doe', 30); // 인스턴스 생성
+person.sayHello();
+// Output: "Hello, my name is John Doe and I am 30 years old."
+```
 
+* JAVA 등 여타 객체지향 언어의 class와 유사하게, JS의 class도 "extends" keyword를 사용하여 부모 클래스로부터 자식 클래스로의 상속이 가능합니다. 
+```javascript
+class Animal { 
+  constructor(name){
+    this.name = name; // this로 class 내부의 변수 name을 가리키고 있습니다.
+  }
+
+  speak(){
+    console.log(`${this.name} makes a sound`);
+  }
+}
+
+class Dog extends Animal { // Animal 상속
+  speak(){ // 오버라이딩
+    console.log(`${this.aname} barks.`)
+  }
+}
+
+const dog = new Dog("Rufus")
+dog.speak() // 오버라이딩된 speak 메소드 실행: "Rufus is barks."
+```
+
+* 정적 메소드(또는 정적 변수)는 객체 생성 없이, Class 이름으로 호출하는 메소드(또는 변수)를 말합니다. 주로 인스턴스(객체)와 관련 없는 작업 수행을 위해 사용될 수 있습니다.
+* static keyword를 사용함으로써 생성할 수 있습니다. 
+```javascript
+class MathHelper {
+  static square(num) {
+    return num * num;
+  }
+}
+
+const result = MathHelper.square(5);
+console.log(result);
+// Output: 25
+```
+
+* 정적 메소드를 정의하는 것은 객체를 몇개나 더 생성하는지와 상관 없이 고정된 메모리 공간을 차지합니다. 즉 (객체를 생성하지 않아도 사용할 수 있으므로)속도가 빠르고, 메모리를 효율적으로 사용할 수 있다는 장점이 있지만, 그와 동시에 (고정된 메모리를 차지하므로)프로그램이 종료될 때 까지 메모리를 차지하고 있을 수 있습니다. 즉 메모리 누수의 여지가 있을 수 있습니다. 
 
 \[^출처1]: https://poiemaweb.com/js-array
 \[^출처2]: https://velog.io/@jakeseo_me/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%9D%BC%EB%A9%B4-%EC%95%8C%EC%95%84%EC%95%BC-%ED%95%A0-33%EA%B0%80%EC%A7%80-%EA%B0%9C%EB%85%90-22-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EA%B3%A0%EC%B0%A8-%ED%95%A8%EC%88%98Higher-Order-Function-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0
-
-```javascript
-
-```
+\[^출처3]: https://catsbi.oopy.io/fffa6930-ca30-4f7e-88b6-28011fde5867
+\[^출처4]: https://www.zerocho.com/category/JavaScript/post/5741d96d094da4986bc950a0
