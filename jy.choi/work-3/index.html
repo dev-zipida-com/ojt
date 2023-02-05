@@ -9,85 +9,314 @@
 <body>
   <div id="root"></div>
   <script>
+    // Root의 design을 정의합니다.
     const root = document.getElementById("root")
+    root.style.marginTop = "100px"
+    root.style.height = "500px"
+
+    // Template의 design을 정의합니다.
     const templete = document.createElement("div")
     templete.style.display = "flex"
-    templete.style.flexDirection = "row"
-    templete.style.justifyContent = "center"
-    templete.style.marginTop = "100px"
+    templete.style.flexDirection = "column"
+    templete.style.backgroundColor = "#e2e2e2"
 
+    // ClockDisplay를 정의합니다. 
+    // Templete 위에 ClockDisplay와 TimerDisplay가 올라가되, 첫 화면에서 TimerDisplay는 rendering되지 않습니다.
     const clockDisplay = document.createElement("div");
-    clockDisplay.className = "clockDisplay";
     clockDisplay.style.display = "flex"
     clockDisplay.style.flexDirection = "column"
 
+    // clockDisplay는 제목(clockTitle), 시계(clock), 토글 버튼(toggleBtnInClock)으로 구성됩니다.
+    // clockTitle을 정의합니다.
     const clockTitle = document.createElement("h1")
     clockTitle.textContent = "CLOCK"
     clockTitle.style.textAlign = "center"
-    clockDisplay.appendChild(clockTitle)
+    clockTitle.style.fontSize = "40px"
 
-    const clockTimer = document.createElement("h3")
-    clockTimer.textContent = "0000-00-00 00:00:00"
-    clockTimer.style.textAlign = "center"
-    clockDisplay.appendChild(clockTimer)
+    // clock을 정의합니다.
+    const clock = document.createElement("h3")
+    clock.textContent = "0000-00-00 00:00:00"
+    clock.style.textAlign = "center"
+    clock.style.fontSize = "30px"
+    clock.style.fontWeight = "400"
 
-    const toggleBtn = document.createElement("button");
-    toggleBtn.textContent = "Toggle";
+    // updateClock 함수는 한국어 시계를 현재 시간에 맞춰 업데이트 합니다.
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hours12: false}
 
-    const TimerDisplay = document.createElement("h1")
-    TimerDisplay.textContent = "TIMER"
+    // updateClock 함수는 Date 객체의 프로토타입 객체에 새로운 메소드로 추가하였습니다.
+    Date.prototype.updateClock = function(){
+      clock.textContent =this.toLocaleTimeString("ko-KR", options)
+    }
 
-    const stopBtn = document.createElement("button");
-    stopBtn.textContent = "Stop";
-    stopBtn.style.display = "none";
+    // TimerDisplay를 정의합니다 TimerDisplay는 제목(timerTitle), 타이머(timer), 토글 버튼(toggleBtnInTimer), 그리고 버튼 템플릿(btnTemplate)으로 구성됩니다.
+    // 버튼 템플릿은 하기하겠습니다. 
+    // TimerDisplay는 첫 화면에서 렌더링되지 않지만, Toggle하면 ClockDisplay가 사라지고 TimerDisplay가 viewable합니다.
+    const timerDisplay = document.createElement("div")
+    timerDisplay.style.display = "none"
+    timerDisplay.style.flexDirection = "column"
 
-    let startTime;
+    // 제목(timerTitle)의 design을 정합니다.
+    const timerTitle = document.createElement("h1")
+    timerTitle.textContent = "TIMER"
+    timerTitle.style.textAlign = "center"
+    timerTitle.style.fontSize = "40px"
+
+    // timer의 design을 정의합니다. 
+    const timer = document.createElement("h3")
+    timer.textContent = "00:00:00";
+    timer.style.textAlign = "center"
+    timer.style.fontSize = "40px"
+    timer.style.fontWeight = "400"
+    
+    // Toggle buttons를 정의합니다.
+    // Toggle button은 Display마다 별도의 것을 가지고 있고, 각각의 div로 wrapping되어 있습니다. 
+    const wrapperOfToggleBtnInTimer = document.createElement("div");
+    wrapperOfToggleBtnInTimer.style.display = "flex"
+    wrapperOfToggleBtnInTimer.style.flexDirection = "row"
+    wrapperOfToggleBtnInTimer.style.justifyContent = "center"
+    wrapperOfToggleBtnInTimer.style.height = "50px"
+    wrapperOfToggleBtnInTimer.style.marginBottom = "18px"
+
+    const toggleBtnInTimer = document.createElement("button");
+    toggleBtnInTimer.textContent = "Toggle";
+    toggleBtnInTimer.style.fontSize = "20px"
+    toggleBtnInTimer.style.width = "20%"
+    toggleBtnInTimer.style.backgroundColor = "dodgerblue"
+    toggleBtnInTimer.style.color = "white"
+    toggleBtnInTimer.style.border = "none"
+    toggleBtnInTimer.style.borderRadius = "8px"
+
+    toggleBtnInTimer.addEventListener("click", toggle)
+
+    const wrapperOftoggleBtnInClock = document.createElement("div");
+    wrapperOftoggleBtnInClock.style.display = "flex"
+    wrapperOftoggleBtnInClock.style.flexDirection = "row"
+    wrapperOftoggleBtnInClock.style.justifyContent = "center"
+    wrapperOftoggleBtnInClock.style.height = "50px"
+    wrapperOftoggleBtnInClock.style.marginBottom = "40px"
+
+    const toggleBtnInClock = document.createElement("button");
+    toggleBtnInClock.textContent = "Toggle";
+    toggleBtnInClock.style.width = "20%"
+    toggleBtnInClock.style.fontSize = "20px"
+    toggleBtnInClock.style.backgroundColor = "dodgerblue"
+    toggleBtnInClock.style.border = "none"
+    toggleBtnInClock.style.color = "white"
+    toggleBtnInClock.style.borderRadius = "8px"
+
+    toggleBtnInClock.addEventListener("click", toggle)
+
+    wrapperOfToggleBtnInTimer.appendChild(toggleBtnInTimer)
+    wrapperOftoggleBtnInClock.appendChild(toggleBtnInClock)
+
+    // toggle 함수는 현재 viewable display를 toggle해줍니다.
+    function toggle(){
+      if(clockDisplay.style.display === "none"){
+        pauseTimer()
+        clockDisplay.style.display = "flex"
+        timerDisplay.style.display = "none"
+      }else if(timerDisplay.style.display === "none"){
+        clockDisplay.style.display = "none"
+        timerDisplay.style.display = "flex"
+      }
+    }
+
+    // 버튼 템플릿과, timerDisplay에서 사용될 기능이 다른 네 개의 버튼을 각각 정의합니다.
+    // 버튼 템플릿은 네 개의 버튼을 감싸는 wrapper입니다.
+    const btnTemplate = document.createElement("div")
+    btnTemplate.style.display = "flex"
+    btnTemplate.style.flexDirection = "row"
+    btnTemplate.style.justifyContent = "center"
+    btnTemplate.style.height = "80px"
+
+    // startBtn은 타이머를 시작합니다.
+    const startBtn = document.createElement("button")
+    // pauseBtn은 타이머를 일시정지하기 위하여 존재합니다.
+    const pauseBtn = document.createElement("button")
+    // resetBtn은 타이머를 리셋하고, time record를 모두 지웁니다.
+    const resetBtn = document.createElement("button")
+    // recordBtn은 시간을 기록(record)합니다.
+    const recordBtn = document.createElement("button")
+
+    startBtn.textContent = "Start";
+    startBtn.style.width = "20%"
+    startBtn.style.margin = "15px"
+    startBtn.style.fontSize = "20px"
+    startBtn.style.color = "white"
+    startBtn.style.backgroundColor = "tomato"
+    startBtn.style.borderRadius = "8px"
+    startBtn.style.border = "none"
+
+    pauseBtn.textContent = "Pause";
+    pauseBtn.style.width = "20%"
+    pauseBtn.style.margin = "15px"
+    pauseBtn.style.fontSize = "20px"
+    pauseBtn.style.color = "white"
+    pauseBtn.style.backgroundColor = "limegreen"
+    pauseBtn.style.borderRadius = "8px"
+    pauseBtn.style.border = "none"
+
+    resetBtn.textContent = "Reset";
+    resetBtn.style.width = "20%"
+    resetBtn.style.margin = "15px"
+    resetBtn.style.fontSize = "20px"
+    resetBtn.style.color = "white"
+    resetBtn.style.backgroundColor = "orange"
+    resetBtn.style.borderRadius = "8px"
+    resetBtn.style.border = "none"
+
+    recordBtn.textContent = "Record";
+    recordBtn.style.width = "20%"
+    recordBtn.style.margin = "15px"
+    recordBtn.style.fontSize = "20px"
+    recordBtn.style.color = "white"
+    recordBtn.style.backgroundColor = "forestgreen"
+    recordBtn.style.borderRadius = "8px"
+    recordBtn.style.border = "none"
+
+    startBtn.addEventListener("click", startTimer);
+    pauseBtn.addEventListener("click", pauseTimer);
+    resetBtn.addEventListener("click", resetTimer);
+    recordBtn.addEventListener("click", recordTime);
+    
+    // recordsList는 사용자의 time stamps를 기록하는 unordered list입니다. 
+    const recordsList = document.createElement("ul")
+
+    // timer를 위한 함수를 정의합니다.
+    // intervalId는 setInterval 함수의 return value(task ID)를 가집니다. setInterval 함수의 반복 실행을 종료하기 위한 clearInterval 함수의 유일한 argument입니다.
     let intervalId;
+    // timeInterval은 start 버튼을 누른 뒤로부터 얼마나 오래 시간이 흘렀는지를 나타냅니다. 초기값으로 0을 부여합니다.
+    let timeInterval = 0;
+    // timerStarted는 현재 startTimer 함수가 작동하는 상태인지(true; On 상태) 여부를 boolean값으로 나타냅니다. 초기값은 false(Off 상태)입니다.
+    let timerStarted = false
+    // pauseTimerStarted는 현재 pause 버튼이 On 상태인지를 나타냅니다. timer의 pause 이후 다시 start할 때 까지 흐른 시간을 제외하기 위해 사용합니다. 
+    let pauseTimerStarted = false
+    // startTime은 start 을 누른 순간의 시간을 가리킵니다. 초기값은 0입니다. 
+    let startTime = 0;
+    // pausedAt은 pause 버튼을 누른 순간의 시간을 가리킵니다. 초기값은 0입니다.
+    let pausedAt = 0;
 
-    function updateClock() {
-      clockDisplay.textContent = new Date().toLocaleTimeString();
-    }
-
-    function updateTimer() {
-      const now = new Date();
-      const elapsedTime = now - startTime;
-      clockDisplay.textContent = elapsedTime;
-    }
-
-    function toggleClockTimer() {
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-
-      if (clockDisplay.textContent === new Date().toLocaleTimeString()) {
-        startTime = new Date();
-        stopBtn.style.display = "inline-block";
-        intervalId = setInterval(updateTimer, 1);
-      } else {
-        stopBtn.style.display = "none";
-        intervalId = setInterval(updateClock, 1000);
-      }
-    }
-
-    function stopTimer() {
+    // setInterval은 비동기처리를 전제합니다(callback 함수를 사용하므로). 때문에 카운팅 기반(count++ by ery ms)의 1ms단위 타이머는 time delay가 나타나며, 이 time inconsistancy가 누적될 수 있습니다.
+    // 이는 call stack이 비어있지 않은 경우 task queue에서 call stack으로 비동기 처리 결과물을 전송할 수 없기 때문입니다.
+    // 따라서 window 객채에 내장된 performance.now()로 시간차를 계산하여 업데이트 합니다. performance.now는 최대 정밀도 5mcs를 갖습니다.
+    function startTimer() {
+      // start 버튼을 여러 번 동시에 누르는 경우, 여러 개의 setInterval 함수가 동시에 실행될 수 있습니다. 따라서 모든 버튼은 clearInterval을 수행합니다.
       clearInterval(intervalId);
-      intervalId = null;
-      stopBtn.style.display = "none";
+
+      // 만약 start 버튼이 Off 상태이고, startTime이 0이라면, startTime에 현재 시간을 할당합니다.
+      if(!timerStarted && startTime === 0){
+        startTime = performance.now();
+      }
+
+      // 만약 pause 버튼이 On 상태이고, pause 버튼을 누른 시간이 0이 아니라면(즉 pause 상태로 시간이 지난 경우) pause 상태로 지난 시간을 타이머에서 제외하고 초기화를 수행합니다.
+      if(pauseTimerStarted && pausedAt !== 0){
+        startTime += (performance.now() - pausedAt);
+        pauseTimerStarted = false;
+        pausedAt = 0;
+      }
+
+      // start 버튼을 On 상태로 바꿉니다.
+      timerStarted = true;
+
+      // setInterval 함수를 통해 1ms 단위로 시간 간격을 측정하고, interval의 ID를 반환받아 저장합니다. 
+      intervalId = setInterval(() => {
+        timeInterval = performance.now() - startTime;
+        updateTimer();
+      }, 1); 
     }
 
-    // Add event listeners to the buttons
-    toggleBtn.addEventListener("click", toggleClockTimer);
-    stopBtn.addEventListener("click", stopTimer);
+    // pause 버튼에 add됩니다. 상태를 바꾸고 pause 버튼을 눌렀을 때의 시간을 저장합니다(pauseAt). 
+    function pauseTimer() {
+      clearInterval(intervalId);
+      timerStarted = false;
+      pauseTimerStarted = true;
+      if(startTime !== 0){
+        pausedAt = performance.now()
+      }
+    }
 
-    // Append the clock display, toggle button, and stop button to the root element
-    clockDisplay.appendChild(toggleBtn)
+    // resetTimer 함수는 모든 상태를 초기화하고, 타이머를 초기값으로 돌린 뒤 records를 지웁니다. reset 버튼에 add됩니다.
+    function resetTimer() {
+      clearInterval(intervalId);
 
+      timeInterval = 0;
+      startTime = 0;
+      timerStarted = false;
+      pauseTimerStarted = false;
+      startTime = 0;
+      pausedAt = 0;
+
+      updateTimer();
+      clearRecordsList();
+    }
+
+    // start 버튼을 누르면 매 1ms 마다 updateTimer 함수가 실행됩니다. timeInterval을 분, 초, 시로 보여줍니다.
+    function updateTimer() {
+        const min = Math.floor(timeInterval / 60000);
+        const sec = Math.floor(timeInterval / 1000) % 60;
+        const ms = Math.floor(timeInterval % 1000);
+
+        timer.textContent = `${formatTime(min, null)} : ${formatTime(sec, null)} : ${formatTime(ms, "ms")}`
+    }
+
+    // formatTime 함수는 ms의 경우 세 자릿수, 초, 분, 시는 두 자릿수로 표현해주는 포맷입니다.
+    function formatTime(time, condition) {
+      if(condition === "ms"){
+        if(time < 10){
+          return `00${time}`
+        }else if(time < 100){
+          return `0${time}`
+        }
+        return time;
+      }
+
+      return time < 10 ? `0${time}` : time;
+    }
+
+    // recordTime 함수는 record 버튼을 누른 순간, recordsList에 현재 타이머 시간 정보를 list로 추가합니다. 
+    function recordTime() {
+      const li = document.createElement("li");
+      li.style.fontSize = "20px"
+
+      const min = Math.floor(timeInterval / 60000);
+      const sec = Math.floor(timeInterval / 1000) % 60;
+      const ms = Math.floor(timeInterval % 1000);
+
+      li.textContent = `${formatTime(min, null)} : ${formatTime(sec, null)} : ${formatTime(ms, "ms")}`
+      recordsList.appendChild(li);
+    }
+
+    // recordsList를 초기화합니다.
+    function clearRecordsList() {
+      recordsList.innerHTML = "";
+    }
+
+    // 전체 Tree 입니다.
+    clockDisplay.appendChild(clockTitle)
+    clockDisplay.appendChild(clock)
+    clockDisplay.appendChild(wrapperOftoggleBtnInClock)
+    
+    timerDisplay.appendChild(timerTitle)
+    timerDisplay.appendChild(timer)
+    timerDisplay.appendChild(wrapperOfToggleBtnInTimer)
+
+    btnTemplate.appendChild(startBtn)
+    btnTemplate.appendChild(pauseBtn)
+    btnTemplate.appendChild(resetBtn)
+    btnTemplate.appendChild(recordBtn)
+
+    timerDisplay.appendChild(btnTemplate) // start, pause, reset, & record 버튼을 담고 있는 div입니다.
+    timerDisplay.appendChild(recordsList)
+    
     templete.appendChild(clockDisplay)
+    templete.appendChild(timerDisplay)
+
     root.appendChild(templete)
 
-    // Start with the clock display
-    intervalId = setInterval(updateClock, 1000);
+    // 사용자가 clock에 첫 접근할 때, 1000ms 딜레이가 걸릴 수 있습니다. 초기에 updateClock 함수를 실행시키고, setInterval을 수행합니다.
+    new Date().updateClock();
+    setInterval(() => new Date().updateClock(), 1000);
+
   </script>
 </body>
 </html>
