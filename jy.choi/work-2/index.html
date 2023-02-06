@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>work2</title>
+  <title>Fetch</title>
 </head>
 <body>
   <div id="root"></div>
@@ -52,7 +52,11 @@
     // root와 table Element를 만듭니다.
     const root = document.getElementById("root")
     const table = document.createElement("table")
-
+    const div = document.createElement("div")
+    div.style.display = "flex"
+    div.style.flexDirection = "column"
+    div.style.justifyContent = "center"
+    
     // table의 style을 정의합니다. 
     table.className = "table-style"
     const style = document.createElement("style")
@@ -63,7 +67,7 @@
       margin: 0 auto;
       border-collapse: collapse;
       border-radius: 1em;
-      overflow: hidden; 
+      overflow: hidden;
     }`
     root.appendChild(style)
 
@@ -178,8 +182,11 @@
     refreshButton.addEventListener("click", refreshData);
 
     // 루트에 버튼과 테이블을 append합니다.
-    root.appendChild(refreshButton);
-    root.append(table)
+    div.append(refreshButton);
+    div.append(table);
+
+      root.append(div);
+
   </script>
 </body>
 </html>
