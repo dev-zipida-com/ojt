@@ -11,7 +11,7 @@ function saveTodoList() {
 
 function saveTodo(text) {
   const todo = {
-    text : text,
+    text,
     id : todoArr.length + 1
   };
 
@@ -26,8 +26,7 @@ function viewTodo(text) {
   const deleteButton = document.createElement('button');
 
   span.innerHTML = text;
-  deleteButton.innerText = 'Delete';
-  deleteButton.setAttribute("id", todoArr.length + 1);
+  deleteButton.id = todoArr.length + 1;
   deleteButton.addEventListener('click', todoDelete);
 
   li.appendChild(span);
@@ -40,8 +39,8 @@ function viewTodo(text) {
 // delete 버튼 클릭 시 => 삭제할 인덱스로 todoArr 에서 삭제
 function todoDelete(event) {
   const num = event.target.id;
-  const { target: button } = event;
-  const li = button.parentNode;
+  const li = event.button.parentNode;
+
 
   localStorage.removeItem(num);
   todoList.removeChild(li);
@@ -50,37 +49,35 @@ function todoDelete(event) {
 }
 
 // 로컬스토리지에서 todoList 정보 가져오기
-function loadToDoList(e) {
-  const getTodoList = JSON.parse(localStorage.getItem('todoArr'));
+function loadToDoList() {
+  const todoList = JSON.parse(localStorage.getItem('todoArr'));
 
-  if (getTodoList !== null) {
-    getTodoList.forEach(function(e) {
-      viewTodo(e.text);
-    });
+  if (todoList) {
+    todoList.forEach(({ text }) => viewTodo(text));
   }
 }
 
 // Todo Add 버튼 클릭시 => input 값으로 viewTodo() 호출 + input 값 초기화
-function addEvent(event) {
-  if (event.key !== 'Enter' && event.type !== 'click') {
-    return
-  }
-  event.preventDefault();
-  const todoContent = item.value;
+function handleEvent(event) {
+  if (event.type === 'click' || event.key === 'Enter') {
+    event.preventDefault();
+    const todoContent = item.value.trim();
 
-  if (!todoContent) {
-    return alert('값을 입력해주세요.');
-  }
+    if (!todoContent) {
+      return alert('값을 입력해주세요.');
+    }
 
-  viewTodo(todoContent);
-  item.value="";
+    viewTodo(todoContent);
+    item.value = "";
+  }
 }
 
 // TodoList 시작
-function init(){
+function init() {
   loadToDoList();
-  item.addEventListener('keydown', addEvent);
-  addButton.addEventListener('click', addEvent);
+  item.addEventListener('keydown', handleEvent);
+  addButton.addEventListener('click', handleEvent);
 }
 
-init(); 
+init();
+
