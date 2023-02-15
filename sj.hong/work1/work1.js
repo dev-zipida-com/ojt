@@ -26,7 +26,6 @@ function viewTodo(text) {
   const deleteButton = document.createElement('button');
 
   span.innerHTML = text;
-  deleteButton.innerText = 'Delete';
   deleteButton.id = todoArr.length + 1;
   deleteButton.addEventListener('click', todoDelete);
 
@@ -41,6 +40,7 @@ function viewTodo(text) {
 function todoDelete(event) {
   const num = event.target.id;
   const li = event.button.parentNode;
+
 
   localStorage.removeItem(num);
   todoList.removeChild(li);
@@ -80,3 +80,4 @@ function init() {
 }
 
 init();
+

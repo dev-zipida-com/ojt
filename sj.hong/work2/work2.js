@@ -41,13 +41,7 @@ async function clickRefresh() {
   table.style.display = 'block';
 
   // fetch 를 이용하여 API 요청 보내기
-  fetch('https://dummy.restapiexample.com/api/v1/employees', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(response => response.json())
+
   .then(({ status, data }) => {
     // API 요청이 성공했다면, 표의 하위요소에 응답데이터 추가
     if (status === "success") {
