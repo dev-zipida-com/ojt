@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    // Tasks 클래스를 통해 task 객체를 (사용자 요청시마다) 생성합니다. 
+    // 모든 task 객체는 각자 사용자가 입력한 값과 고유 ID(Date)를 가집니다.  
+    class Tasks{
+      constructor(task){
+        this.task = task
+        this.taskid = Date.now()
+      }
+    }
+    // root Design을 설정합니다.
+    const root = document.getElementById("root")
+    root.style.width = "400px"
+    root.style.margin = "10% auto"
+
+    // 제목(Todo App)을 설정합니다.
+    const title = document.createElement("div")
+    title.innerHTML = "<h1>Todo App</h1>"
+    title.style.height = "70px"
+
+    // Add item 타이틀을 만듭니다.
+    const titleAdditem = document.createElement("div")
+    titleAdditem.innerHTML = `<h5 style="height: 0px">ADD ITEM</h5>`
+    titleAdditem.style.width = "100%"
+    titleAdditem.style.borderBottom = "3px solid #000000"
+
+    
+    // Todo App은 사용자로부터 task 입력을 받는 inputForm과 입력받은 것을 보여주는 taskList로 나뉩니다.
+    const inputForm = document.createElement("form")
+
+    // inputForm의 입력창과 버튼을 만듭니다.
+    const input = document.createElement("input")
+    const wrapperOfInputDiv = document.createElement("div")
+    const addButton = document.createElement("button")
+
+    input.type = "text"
+    input.style.width = "80%"
+    input.style.height = "27px"
+    input.style.borderWidth = "2px";
+    input.style.borderStyle = "solid";
+    input.style.borderColor = "#E2E2E2"
+    input.style.borderRadius = "5px"
+
+    wrapperOfInputDiv.style.marginTop = "15px"
+    wrapperOfInputDiv.style.width = "100%"
+    wrapperOfInputDiv.style.display = "flex"
+    wrapperOfInputDiv.style.flexDirection = "row"
+    wrapperOfInputDiv.style.justifyContent = "space-between"
+
+    addButton.textContent = "Add"
+    addButton.style.border = "none"
+    addButton.style.color = "gray"
+    addButton.style.backgroundColor = "transparent"
+
+    // taskList의 타이틀을 만듭니다.
+    const titleTaskList = document.createElement("div")
+
+    titleTaskList.innerHTML = `<h5 style="height:0px">TODO</h5>`
+    titleTaskList.style.width = "100%"
+    titleTaskList.style.borderBottom = "3px solid #000000"
+    
+    // taskList를 만듭니다.
+    // taskList는 제목(titleTaskList 변수)과 로컬 스토리지 내부에 저장된 tasks(list 변수)를 갖습니다.
+    const taskList = document.createElement("div")
+    taskList.style.marginTop = "10px"
+    taskList.style.width = "100%"
+
+    const list = document.createElement("div")
+
+    // 변수명 myTasksInLocalStorage는 로컬 스토리지에 저장된 task 객체들을 가리킵니다. 
+    // 만약 "tasks"에 저장된 정보가 없다면 빈 array를 반환합니다.
+    let myTasksInLocalStorage = JSON.parse(localStorage.getItem("tasks")) || []
+
+    // render_tasks 함수는 로컬 스토리지에 저장된 task 객체들을 가져와 렌더링합니다.
+    const render_tasks = () => {
+      list.innerHTML = "";
+      myTasksInLocalStorage.forEach(aTask => {
+        const div = document.createElement("div");
+
+        div.style.display = "flex";
+        div.style.flexDirection = "row";
+        div.style.justifyContent = "space-between";
+        div.style.width = "95%"
+        div.style.padding = "15px"
+        div.style.margin = "3px"
+        div.style.borderBottom = "1px solid #E2E2E2"
+
+        div.innerHTML = `
+          <div style="width:140px;word-wrap:break-word;">${aTask.task}</div>
+          <button style="background-color:transparent;color:gray;border:none" onclick="deleteTask(${aTask.taskid})">Delete</button>
+        `;
+        list.appendChild(div);
+      });
+    };
+
+    // 페이지에 처음 접근할 때 기존에 저장되어 있던 task를 렌더링해 보여줍니다.
+    render_tasks()
+
+    // addTask 함수는 로컬 스토리지에 task 객체를 추가합니다.
+    const addTask = (event) => {
+      event.preventDefault(); // 새로고침 방지! :)
+
+      // 로컬 스토리지 용량이 제한을 넘었다면, 업데이트 없이 경고만 반환합니다. 
+      // 브라우저에 따라 로컬 스토리지와 세션 스토리지를 합쳐 약 5MB 제한을 두는 경우가 있으므로, 최대값의 절반을 용량 제한으로 할당했습니다. 
+      const ramainingStorageSize = 2621420 - Math.round(JSON.stringify(localStorage).length); // max: 5242840 byte
+      if(ramainingStorageSize < input.value.length){
+        alert("Ramaining local storage size is lower than your new record. Delete the older one.")
+        return;
+      }
+
+      // 로컬 스토리지의 개별 key에 대응하는 value size도 제한이 있으므로, 최대 100자의 task length를 받습니다.
+      if(input.value.length > 100){
+        alert("Too long length to record your task.")
+        return;
+      }
+
+      // 문제가 없다면 입력받은 값(input.value)으로 새로운 객체를 생성하고, 로컬 스토리지에 등록합니다.
+      const task = new Tasks(input.value);
+      myTasksInLocalStorage.push(task);
+      input.value = "";
+      localStorage.setItem("tasks", JSON.stringify(myTasksInLocalStorage));
+
+      // 내 리스트 전역을 렌더링합니다. 
+      render_tasks();
+    };
+
+    // deleteTask 함수는 특정 task를 로컬 스토리지에서 삭제합니다.
+    // filter를 사용하여 대상 task의 id를 제외한 값만 남기고 로컬 스토리지에 새로 저장합니다.
+    const deleteTask = (id) => {
+      myTasksInLocalStorage = myTasksInLocalStorage.filter(aTask => aTask.taskid != id)
+      localStorage.setItem("tasks", JSON.stringify(myTasksInLocalStorage));
+      render_tasks();
+    };
+
+    wrapperOfInputDiv.appendChild(input)
+    wrapperOfInputDiv.appendChild(addButton)
+
+      inputForm.appendChild(wrapperOfInputDiv)
+      inputForm.addEventListener("submit", addTask);
+
+      taskList.appendChild(titleTaskList)
+      taskList.appendChild(list)
+
+        root.appendChild(title)
+        root.appendChild(titleAdditem)
+        // Todo 입력창을 붙입니다.
+        root.appendChild(inputForm)
+        // 내 Todo 리스트를 붙입니다.
+        root.appendChild(taskList)
+    
+  </script>
+</body>
+</html>
