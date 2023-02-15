@@ -131,5 +131,3 @@ console.log(typeof foo);  // boolean
   - CPU 사용률이 높은 애플리케이션에서는 권장 X
 
 <br>
-
-
