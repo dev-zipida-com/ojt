@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TodoList</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <section class="todoList">
+      <header class="todoList__title"><span>To Do List</span></header>
+      <form class="inputForm">
+        <input type="text" name="textbox" id="todoInput" />
+        <button class="input__btn" type="submit">+</button>
+        <input type="text" name="emptyBox" id="" style="display: none" />
+      </form>
+      <div class="todoList__main"></div>
+      <footer class="todoList__foot">
+        <p class="todoList__foot__task">foot</p>
+        <button class="todoList__foot__clearBtn">Clear All</button>
+      </footer>
+    </section>
+  </body>
+</html>
