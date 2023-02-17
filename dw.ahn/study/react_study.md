@@ -87,11 +87,81 @@ var와 let, 그리고 const는 다음처럼 사용하는 것을 추천한다.
 
 구조에 관한 편의 기능들을 하나로 모아두었다고 생각하시면 됩니다.
 
+```
+
+
+xcode-select --install
+
+brew tab mongodb/brew
+
+brew update
+
+brew install mongodb-community@4.4
+
+brew --prefix
+
+brew info mongodb-community@4.4
+
+export PATH="/opt/homebrew/opt/mongodb-community@4.4/bin:$PATH"
+
+!!
+
+  실행
+  brew services start mongodb-community@4.4
+
+  몽고 connect
+  mongod
+
+  위 명령어(mongod) 안될 시
+  brew install mongodb-community-shell
+
+
+-- 계정생성
+--
+
+
+use admin
+
+db.createUser({ user: "mongo", pwd: "password123", roles: ["root"] })
+Successfully added user: { "user" : "mongo", "roles" : [ "root" ] }
+
+
+mongo admin -u mongo -p password123
+
+
+
+use db이름
+
+show dbs
+
+현재 사용중인 데이터베이스 확인
+  db
+
+권한
+  db.createUser({ user: "youruser", pwd: "yourpassword", roles: [{ role: "dbOwner", db: "사용중인 db 이름" }] })
+
+db.createUser({ user: "mongo", pwd: "password123", roles: [{ role: "dbOwner", db: "testmongo" }] })
+
+
+
+계정 삭제
+  > db.dropUser("username")
+현재 데이터베이스의 사용자 출력
+  > db.getUsers()
+
+
+```
+
 ### typescript
 
 ### project
 
 오토에버
+
+- back
+  - NestJS
+  - typeScript
+  - 몽고db
 
 ```java
 
@@ -190,7 +260,11 @@ export class MenuAuthService {
 
 npx create-react-app codingapple_first
 
-¡
+npm install express
+
+npm install mongoose
+
+
 
 
 
