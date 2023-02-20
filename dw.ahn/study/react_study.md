@@ -150,7 +150,36 @@ db.createUser({ user: "mongo", pwd: "password123", roles: [{ role: "dbOwner", db
   > db.getUsers()
 
 
+==============
+
+
+
 ```
+
+#### 몽고db, query
+
+Mongoose - query (CREATE)
+
+- Model.create({...})
+- Model.save()
+
+Mongoose - query (READ)
+
+- Model.find({...})
+- Model.findOne({...})
+
+Mongoose - query (UPDATE)
+
+- Model.findByIdAndUpdate({...})
+  - 해당 id의 documnet를 불러와서 갱신
+- Model.updateOne({...})
+
+Mongoose - query (DELETE)
+
+- Model.findByIdAndDelete({...})
+  - 삭제한 데이터를 return
+- Model.deleteOne({...})
+  - 삭제한 데이터를 return x
 
 ### typescript
 
@@ -264,6 +293,46 @@ npm install express
 
 npm install mongoose
 
+
+
+
+
+```
+
+### form data get
+
+```js
+
+
+import React, { useReducer } from "react";
+
+const formReducer = (state, event) => {
+  return {
+    ...state,
+    [event.target.name]: event.target.value,
+  };
+};
+
+const Form = () => {
+  const [formData, setFormData] = useReducer(formReducer, {});
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (Object.keys(formData).length == 0) return console.log("data is empty");
+    console.log(formData);
+  };
+
+
+  <form className="grid lg:grid-cols-2 w-4/6 gap-4" onSubmit={handleSubmit}>
+    <div className="input-type">
+      <input
+        type="text"
+        name="firstname"
+        placeholder="firstname"
+        onChange={setFormData}
+        className="border w-full px-5 py-3 focus:outline-none rounded-md"
+      ></input>
+    </div>
 
 
 
