@@ -2,13 +2,11 @@
 
 [링크1](https://poiemaweb.com/)
 
-```
-
-==========
-
 싱글톤패턴
 
 - spring been
+
+```
 
 싱글톤 패턴은 객체 지향 프로그래밍에서 사용되는 디자인 패턴 중 하나로, 어떤 클래스의 인스턴스가 오직 하나만 생성되도록 보장하고 이에 대한 전역적인 접근점을 제공하는 패턴입니다.
 
@@ -342,6 +340,145 @@ npm install mongoose
 
 
 
+```
+
+### state
+
+1. useState Hook 사용하기 React의 기본적인 상태 관리 방법인 useState Hook을 사용할 수 있습니다. Next.js에서는 이를 사용하기 위해 react 패키지를 import해야 합니다. 다음은 예시입니다:
+
+```js
+import { useState } from "react";
+
+function MyComponent() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleClick}>Increment</button>
+    </div>
+  );
+}
+
+export default MyComponent;
+```
+
+2. getInitialProps 메서드 사용하기
+
+```js
+function MyComponent({ count }) {
+  const [currentCount, setCurrentCount] = useState(count);
+
+  const handleClick = () => {
+    setCurrentCount(currentCount + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {currentCount}</p>
+      <button onClick={handleClick}>Increment</button>
+    </div>
+  );
+}
+
+MyComponent.getInitialProps = () => {
+  return { count: 0 };
+};
+
+export default MyComponent;
+```
+
+위의 예제에서 getInitialProps 메서드는 count 프로퍼티를 반환합니다. 이 프로퍼티는 MyComponent의 초기값으로 사용됩니다. 이후에는 useState Hook을 사용하여 클라이언트 측에서 상태를 변경할 수 있습니다.
+
+### props
+
+Props는 부모 컴포넌트에서 자식 컴포넌트로 전달되는 데이터입니다. 부모 컴포넌트에서 자식 컴포넌트에 데이터를 전달할 때, 자식 컴포넌트의 props를 설정하여 전달합니다. 이렇게 전달된 props는 자식 컴포넌트에서 참조하여 사용할 수 있습니다.
+
+Next.js에서도 React와 마찬가지로, 컴포넌트에 props를 전달할 수 있습니다. 이 때, 컴포넌트는 함수 형태로 작성되며, props는 함수의 매개변수로 전달됩니다. 예를 들어, 아래는 MyComponent 컴포넌트에 title이라는 props를 전달하는 예시 코드입니다.
+
+```js
+function MyComponent(props) {
+  return <h1>{props.title}</h1>;
+}
+
+export default function Home() {
+  return <MyComponent title="Hello, Next.js!" />;
+}
+```
+
+위 코드에서 MyComponent 컴포넌트는 props.title을 출력하도록 작성되어 있습니다. Home 컴포넌트에서는 MyComponent 컴포넌트에 title이라는 이름으로 "Hello, Next.js!"라는 값을 전달하고 있습니다. 이렇게 전달된 title props는 MyComponent 컴포넌트에서 참조하여 출력됩니다.
+
+따라서, Next.js에서 props는 React에서 사용되는 개념과 동일하게, 컴포넌트에서 전달되는 데이터를 의미합니다.
+
+### map foreach문
+
+```js
+
+
+
+
+// map 출력
+// 02
+
+Next.js는 React 기반의 웹 프레임워크이므로, React의 기본적인 map 함수를 사용하여 데이터를 출력할 수 있습니다.
+
+예를 들어, 아래는 Next.js에서 배열 데이터를 출력하는 예시 코드입니다.
+
+
+
+function MyComponent({ data }) {
+  return (
+    <ul>
+      {data.map(item => (
+        <li key={item.id}>{item.name}</li>
+      ))}
+    </ul>
+  )
+}
+
+
+위 코드에서 data는 배열 형태의 데이터이며, map 함수를 사용하여 배열의 각 요소를 순회하면서 각 요소를 <li> 태그로 출력합니다. 이 때, key prop을 설정하여 각 요소가 유일한 값으로 구분되도록 합니다.
+
+위와 같이 React의 기본적인 map 함수를 사용하여 데이터를 출력할 수 있습니다. 하지만 Next.js는 server-side rendering (SSR) 및 static site generation (SSG) 기능을 제공하므로, getServerSideProps 또는 getStaticProps 함수에서 데이터를 가져와 컴포넌트에 props로 전달하는 방식으로도 데이터를 출력할 수 있습니다. 이 경우, 서버 측에서 데이터를 가져오기 때문에 초기 로딩 속도가 빨라지는 장점이 있습니다.
+
+
+
+
+// map 출력
+// 01
+
+
+
+
+function Home() {
+
+  const databalone = [{status: '1', message: 'OK', result: '1234'},{status: '1', message: 'OK', result: '1234'}];
+  const datatransone = [{status: '1', message: 'OK', result: [{hash: '4321'}]},{status: '1', message: 'OK', result: [{hash: '54321'}]}];
+
+  return  (
+    <ul>
+      <h1>Address One</h1>
+      {databalone.map((balance) => {
+        return (
+      <li>{(balance.result * 1e-18).toString()}</li>
+      )})}
+      <div>
+      <h1>Address Two</h1>
+      <div>
+      {datatransone.map(function(d){
+         return (<li>{d.result.map((r) => <span>{r.hash}</span>)}</li>)
+       })}
+      </div>
+      </div>
+    </ul>
+  );
+}
+
+ReactDOM.render(<Home />, document.getElementById('root'));
 ```
 
 ### form data get
