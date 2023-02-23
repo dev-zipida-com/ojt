@@ -30,6 +30,8 @@
 
 
 
+
+
 // 01
 //
 
@@ -50,6 +52,47 @@ a    :: undefined
 ```
 
 ### ECMAScript6
+
+#### 비구조 할당
+
+React에서는 ES6의 비구조화 할당(destructuring assignment) 문법을 사용하여, 객체나 배열에서 필요한 값만 추출하여 사용할 수 있습니다. 이를 활용하면 코드의 가독성과 유지보수성이 향상됩니다.
+
+예를 들어, 다음과 같이 객체에서 필요한 값만 추출하여 사용할 수 있습니다.
+
+```js
+function MyComponent(props) {
+  const { name, age } = props;
+
+  return (
+    <div>
+      <div>Name: {name}</div>
+      <div>Age: {age}</div>
+    </div>
+  );
+}
+```
+
+위 코드에서 props 객체에서 name과 age 값을 추출하여, 변수에 할당하고 사용합니다.
+
+또한, 다음과 같이 배열에서 필요한 값만 추출하여 사용할 수 있습니다.
+
+```js
+function MyComponent() {
+  const items = ["Apple", "Banana", "Orange"];
+  const [firstItem, secondItem] = items;
+
+  return (
+    <div>
+      <div>First Item: {firstItem}</div>
+      <div>Second Item: {secondItem}</div>
+    </div>
+  );
+}
+```
+
+위 코드에서 items 배열에서 첫 번째와 두 번째 요소를 추출하여, 변수에 할당하고 사용합니다.
+
+React에서 비구조화 할당을 사용하면, 코드의 가독성이 좋아지고, 필요한 값만 추출하여 사용하므로 불필요한 데이터를 렌더링하지 않게 되어 성능에도 좋습니다.
 
 ```js
 
@@ -342,6 +385,20 @@ npm install mongoose
 
 ```
 
+### dom
+
+React DOM은 React에서 사용되는 가상(DOM)을 실제 DOM에 렌더링하는 라이브러리입니다. React DOM은 React 컴포넌트의 상태에 따라 다양한 상태를 가질 수 있습니다.
+
+- Mounted: React 컴포넌트가 DOM에 마운트(mount)되면, React DOM은 컴포넌트의 상태를 Mounted 상태로 변경합니다. 이 상태에서는 컴포넌트가 화면에 렌더링되고, DOM 트리에 삽입됩니다.
+
+- Updated: React 컴포넌트의 state나 props가 변경되면, React DOM은 컴포넌트의 상태를 Updated 상태로 변경합니다. 이 상태에서는 컴포넌트가 다시 렌더링되고, 변경된 내용이 DOM에 업데이트됩니다.
+
+- Unmounted: React 컴포넌트가 DOM에서 언마운트(unmount)되면, React DOM은 컴포넌트의 상태를 Unmounted 상태로 변경합니다. 이 상태에서는 컴포넌트가 DOM에서 제거되고, 더 이상 렌더링되지 않습니다.
+
+- Error: React 컴포넌트에서 오류가 발생하면, React DOM은 컴포넌트의 상태를 Error 상태로 변경합니다. 이 상태에서는 오류 메시지가 화면에 렌더링되고, 컴포넌트의 자식 컴포넌트도 렌더링되지 않습니다.
+
+- React DOM은 이러한 상태를 기반으로 컴포넌트의 렌더링과 업데이트를 처리합니다. 이를 통해 React는 효율적이고 성능이 우수한 UI를 제공할 수 있습니다.
+
 ### state
 
 1. useState Hook 사용하기 React의 기본적인 상태 관리 방법인 useState Hook을 사용할 수 있습니다. Next.js에서는 이를 사용하기 위해 react 패키지를 import해야 합니다. 다음은 예시입니다:
@@ -394,6 +451,139 @@ export default MyComponent;
 
 위의 예제에서 getInitialProps 메서드는 count 프로퍼티를 반환합니다. 이 프로퍼티는 MyComponent의 초기값으로 사용됩니다. 이후에는 useState Hook을 사용하여 클라이언트 측에서 상태를 변경할 수 있습니다.
 
+### 사용자 정의 hook
+
+React에서 사용자 정의 Hook은 컴포넌트에서 중복되는 로직을 추상화하고 재사용 가능한 함수로 분리하는 방법입니다. 사용자 정의 Hook을 작성하면 다른 컴포넌트에서 동일한 로직을 사용할 수 있으며 코드의 재사용성과 가독성을 향상시킬 수 있습니다.
+
+사용자 정의 Hook은 "use" 접두어로 시작해야 하며, 일반적으로 컴포넌트의 상태와 라이프사이클 메서드를 추상화하거나, 비동기 호출을 처리하는 등의 로직을 포함합니다.
+
+예를 들어, useForm이라는 사용자 정의 Hook을 작성해보겠습니다. 이 Hook은 폼을 다루는 컴포넌트에서 상태값과 이벤트 핸들러를 추상화하여 제공합니다.
+
+```js
+import { useState } from "react";
+
+function useForm(initialValues) {
+  const [values, setValues] = useState(initialValues);
+
+  function handleChange(e) {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // 폼 데이터를 처리하는 로직
+  }
+
+  return { values, handleChange, handleSubmit };
+}
+
+// 사용 예시
+function MyForm() {
+  const { values, handleChange, handleSubmit } = useForm({
+    name: "",
+    email: "",
+  });
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        name="name"
+        value={values.name}
+        onChange={handleChange}
+      />
+      <input
+        type="email"
+        name="email"
+        value={values.email}
+        onChange={handleChange}
+      />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+이제 MyForm 컴포넌트에서 useForm Hook을 사용하여 상태와 이벤트 핸들러를 추상화했으므로, 이 Hook을 다른 폼 컴포넌트에서도 사용할 수 있습니다. 이런 식으로 컴포넌트에서 중복되는 로직을 추상화하여 재사용성을 높일 수 있습니다.
+
+### useRef
+
+- 리렌더링 되더라도 값 유지됌
+- 언마운트 될떄가지
+- state의 변화가 일어나면 렌더링이 일어나지만 useRef로 선언된 값이 변해도 렌더링이 일어나지 않음
+- dom요소에 접근
+
+```js
+const countRef = useRef(0);
+
+const increaseCOuntRef = () => {
+  countRef.current = countRef.current + 1;
+
+  return (
+    <div>
+      <p>Ref: {countRef.current}</p>
+    </div>
+  );
+};
+```
+
+### useMemo
+
+- 성능상의 차이는 아주 미미하겠지만 재계산하는 로직이 복잡하다면 불필요하게 비싼 계산을 하는 것을 막을 수 있음
+
+```javascript
+
+// info component
+// colorKor가 실행될 떄  movieGenerKor도 동작 됌 (react 특징)
+
+const colorKor = color => {
+  ...
+}
+const movieGenerKor = movice => {
+  ...
+}
+
+
+const Info = ({color, movice}) => {
+  const colorKor = getColor(color);
+  const movieGenerKor = getMoviceGenKor(movie);
+
+}
+
+
+
+// useMemo 사용
+//
+
+const Info = ({color, movice}) => {
+  const colorKor = useMemo(() => getColor(color),[color]);
+  const movieGenerKor = useMemo(() => movieGenerKor(movie),[movie]);
+
+}
+
+
+```
+
+### useCallback
+
+- useState으로 선언된 값이 한개만 변해도 dom은 다시 생성됌
+
+```js
+// dom 생성 될 떄 한번만 선언이 되었으면 좋겠다는 생각이 듦
+
+const onChangeHandler = (e) => {
+  if (e.target.id === "color") setColor(e.target.value);
+  else setMovie(e.target.value);
+};
+
+// useCallback 사용
+
+const onChangeHandler = useCallback((e) => {
+  if (e.target.id === "color") setColor(e.target.value);
+  else setMovie(e.target.value);
+}, []);
+```
+
 ### props
 
 Props는 부모 컴포넌트에서 자식 컴포넌트로 전달되는 데이터입니다. 부모 컴포넌트에서 자식 컴포넌트에 데이터를 전달할 때, 자식 컴포넌트의 props를 설정하여 전달합니다. 이렇게 전달된 props는 자식 컴포넌트에서 참조하여 사용할 수 있습니다.
@@ -414,10 +604,112 @@ export default function Home() {
 
 따라서, Next.js에서 props는 React에서 사용되는 개념과 동일하게, 컴포넌트에서 전달되는 데이터를 의미합니다.
 
-### map foreach문
+### map , 객체
 
 ```js
 
+// 05
+// 배열
+
+key가 있는게 효율적으로 데이터를 관리 가능
+
+
+
+
+만약 배열 안의 원소가 가지고 있는 고유한 값이 없다면 map() 함수를 사용 할 때 설정하는 콜백함수의 두번째 파라미터 index 를 key 로 사용하시면 됩니다.
+
+
+
+import React from 'react';
+
+function User({ user }) {
+  return (
+    <div>
+      <b>{user.username}</b> <span>({user.email})</span>
+    </div>
+  );
+}
+
+function UserList() {
+  const users = [
+    {
+      id: 1,
+      username: 'velopert',
+      email: 'public.velopert@gmail.com'
+    },
+    {
+      id: 2,
+      username: 'tester',
+      email: 'tester@example.com'
+    },
+    {
+      id: 3,
+      username: 'liz',
+      email: 'liz@example.com'
+    }
+  ];
+
+  return (
+    <div>
+      {users.map(user => (
+        <User user={user} key={user.id} />
+      ))}
+    </div>
+  );
+}
+
+export default UserList;
+
+
+// 04
+// 객체 update할 떄 스프레드 문법으로 복사해줘야함
+
+
+
+const [inputs, setInputs] = useState({
+  name : '',
+  nickname : '',
+});
+
+const onChange = (e) => {
+  const {name, value} = e.target; // e.target에 있는 name, value를 비구조 할당으로 가져옴
+
+  setInputs({
+    ...inputs,
+    [name] : value,
+  })
+
+}
+
+
+
+// 03
+// push
+
+function MyComponent() {
+  const [items, setItems] = useState([
+    { id: 1, name: 'Apple', price: 1000 },
+    { id: 2, name: 'Banana', price: 2000 },
+  ]);
+
+  const handleClick = () => {
+    const newItem = { id: 3, name: 'Orange', price: 3000 };
+    const newItems = [...items, newItem]; // 기존의 배열에 새로운 요소를 추가하기 위해 spread 연산자를 사용
+    setItems(newItems);
+  };
+
+  return (
+    <div>
+      <button onClick={handleClick}>Add Item</button>
+      {items.map((item) => (
+        <div key={item.id}>
+          <div>{item.name}</div>
+          <div>{item.price}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 
 
