@@ -813,6 +813,167 @@ const Form = () => {
 
 ```
 
+### 부모 컴포넌트, 자식 컴포넌트 전달 구조
+
+- 부모 컴포넌트에서 state값(input 등등)과 함수를 작성하고 자식 컴포넌트에게 전달하는 구조를 기억하자
+
+```javascript
+//  CreateUser.js;
+//
+
+import React from "react";
+
+function createUser({ username, email, onChange, onCreate }) {
+  return (
+    <div>
+      <input
+        name="username"
+        placeHoder="계정명"
+        onChange={onChange}
+        value={username}
+      />
+    </div>
+      <input
+        name="email"
+        placeHoder="이메일"
+        onChange={onChange}
+        value={email}
+      />
+      <button onClick={onCreate}>등록</button>
+    </div>
+  );
+}
+
+export default createUser;
+
+
+
+// App.js
+//
+
+
+import React, { useRef, useState } from 'react';
+import UserList from './UserList';
+import CreateUser from './CreateUser';
+
+
+function App() {
+  const [inputs, setInputs] = useState({
+    username: '',
+    email: ''
+  });
+
+  const {username, email} = inputs;
+
+  const onChange = e => {
+
+    const {name, value} = e.target;
+    setInputs({...inputs
+              , [name] : value
+    });
+  }
+
+  const [users, setUsers] = useState([
+    {
+      id: 1,
+      username: 'velopert',
+      email: 'public.velopert@gmail.com'
+    },
+    {
+      id: 2,
+      username: 'tester',
+      email: 'tester@example.com'
+    },
+    {
+      id: 3,
+      username: 'liz',
+      email: 'liz@example.com'
+    }
+  ]);
+
+  const nextId = useRef(4);
+  const onCreate = () => {
+    const user = {
+      id : nextId.current,
+      username,
+      email
+    };
+    setUsers(users.concat(user));
+  }
+
+  setInputs({
+    username: '',
+    email: '',
+  });
+  nextId.current += 1;
+
+  return {
+    <>
+      <CreateUser
+        username={username}
+        email={email}
+        onChange={onChange}
+        onCreate={onCreate}
+      />
+      <UserList users={users} />
+    </>
+  };
+
+
+
+}
+
+export default App;
+
+
+```
+
+chatGPT 추천 패턴
+위와 유사한 것 같음
+
+부모 컴포넌트:
+
+- 상태(state)를 포함하는 최상위 컴포넌트이며, 자식 컴포넌트에게 상태(state)와 함께 props를 전달합니다.
+- 렌더링(rendering) 함수에서 자식 컴포넌트를 호출합니다.
+- 이벤트 핸들러(event handler)를 정의하고, 자식 컴포넌트에서 이벤트를 트리거합니다.
+- 필요한 경우, 자식 컴포넌트에서 전달된 콜백 함수를 호출합니다.
+
+```js
+import React, { useState } from "react";
+import ChildComponent from "./ChildComponent";
+
+function ParentComponent() {
+  const [state, setState] = useState("");
+
+  const handleClick = () => {
+    setState("Clicked!");
+  };
+
+  return (
+    <div>
+      <button onClick={handleClick}>Click Me</button>
+      <ChildComponent message={state} />
+    </div>
+  );
+}
+```
+
+자식 컴포넌트:
+
+- 상태(state)를 갖지 않습니다.
+- 부모 컴포넌트에서 전달된 props를 사용하여 렌더링(rendering)합니다.
+- 필요한 경우, 이벤트를 발생시키는 콜백 함수를 호출합니다.
+
+```js
+import React from "react";
+
+function ChildComponent(props) {
+  return <div>{props.message}</div>;
+}
+```
+
+이러한 패턴을 따르면 부모와 자식 컴포넌트 간의 관계가 명확해지고, 재사용성과 유지보수성이 높아집니다. 그러나 모든 경우에 이 패턴이 적용되는 것은 아니므로, 상황에 따라 다른 구성을 사용할 수 있습니다.
+
 ## nest.js
 
 ```js

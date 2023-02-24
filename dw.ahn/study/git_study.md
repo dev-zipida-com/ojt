@@ -1,20 +1,14 @@
-
-
 # Git
 
 gloga
 
-
-
 git pull upstream master
 
-
-
 - commit
-    - 컴맨트 작성할때
-        - modify
-        - fix        
-        - add
+  - 컴맨트 작성할때
+    - modify
+    - fix
+    - add
 
 ```
 
@@ -70,10 +64,10 @@ HEAD
 
 HEAD는 현재 체크아웃된 커밋 -- 다시 말하자면 현재 작업중인 커밋입니다.
 
-HEAD는 항상 작업트리의 가장 최근 커밋을 가리킵니다. 
+HEAD는 항상 작업트리의 가장 최근 커밋을 가리킵니다.
 작업트리에 변화를 주는 git 명령어들은 대부분 HEAD를 변경하는것으로 시작합니다.
 
-일반적으로 HEAD는 브랜치의 이름을 가리키고있습니다(bugFix와 같이). 
+일반적으로 HEAD는 브랜치의 이름을 가리키고있습니다(bugFix와 같이).
 커밋을 하게 되면, bugFix의 상태가 바뀌고 이 변경은 HEAD를 통해서 확인이 가능합니다.
 
 
@@ -134,3 +128,55 @@ git cherry-pick C2 C4
 
 ```
 
+## git add
+
+```
+
+src/ 폴더 내의 모든 파일을 스테이징 하고 싶다면 다음과 같이 입력합니다.
+
+
+    git add src/*
+
+
+
+
+특정 폴더 내의 모든 파일을 스테이징 하고 싶다면 다음과 같이 입력합니다.
+
+
+    git add 폴더경로/*
+
+
+```
+
+## git solution
+
+frequently occur in the git working environment and how to solve them.
+
+Git is a highly reliable tool in most cases, but sometimes unexpected issues can occur in Git working environments. Resolving these issues can be complex, and this is why practical Git experience is important. Here are some common problems that occur in Git working environments and how to solve them.
+
+1. Conflict between the remote and local repositories (원격 저장소와 로컬 저장소 간 충돌)
+
+- Solution:
+
+  - When a conflict occurs, use the git status command to find the files in conflict.
+  - Resolve conflicts manually or use a merge tool to resolve them.
+  - After resolving the conflicts, use the git add command to add the changes to the staging area.
+  - Commit the changes to the local repository.
+  - To maintain synchronization between the remote and local repositories after resolving conflicts, use the git pull command to fetch the changes from the remote repository, and use the git push command to push the changes to the remote repository.
+
+2. Committing to the wrong branch (잘못된 브랜치에 커밋)
+
+- Solution:
+
+  - If you have committed to the wrong branch, switch to the correct branch using the git checkout command.
+  - To undo the commit on the wrong branch, use the git reset command to undo the last commit on that branch.
+  - Go back to the correct branch and use the git cherry-pick command to bring in the desired commit.
+  - Commit the changes to the correct branch and synchronize the changes between the remote and local repositories.
+
+3. Reusing a deleted file (삭제한 파일을 재사용하려고 할 때)
+
+- Solution:
+
+  - To restore a deleted file, use the git checkout command to retrieve the file from the commit where it was deleted.
+  - After restoring the file, add the changes to the staging area.
+  - Commit the changes to the local repository, and then synchronize the changes with the remote repository using the git push command.
