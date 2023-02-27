@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bootstrap Layout Example</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style></style>
+  </head>
+  <body onload="displayTime()">
+    <div
+      class="d-flex align-items-center justify-content-center"
+      style="height: 250px"
+    >
+      <h1 id="ui-title"></h1>
+    </div>
+    <div
+      class="d-flex align-items-center justify-content-center"
+      style="height: 250px"
+    >
+      <h2><span id="clock"></span></h2>
+      <h2><span id="timer">00:00:00</span></h2>
+    </div>
+    <div
+      class="d-flex align-items-center justify-content-center"
+      style="height: 250px"
+    >
+      <button
+        class="p-2 m-2 bg-info text-white shadow rounded-2"
+        id="divToggle"
+      >
+        toggle
+      </button>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-center">
+      <button class="p-2 m-2 bg-danger text-white shadow rounded-2" id="start">
+        Start
+      </button>
+      <button class="p-2 m-2 bg-primary text-white shadow rounded-2" id="stop">
+        Stop
+      </button>
+      <button
+        class="p-2 m-2 bg-secondary text-white shadow rounded-2"
+        id="pause"
+      >
+        Pause
+      </button>
+      <button class="p-2 m-2 bg-dark text-white shadow rounded-2" id="stamp">
+        Stamp
+      </button>
+    </div>
+
+    <br />
+    <br />
+    <br />
+
+    <div class="d-flex align-items-center justify-content-center">
+      <ul hidden id="ul-stamp">
+        <li class="stamp-list"></li>
+      </ul>
+    </div>
+
+    <!--  -->
+    <!--  -->
+
+    <script>
+      let showToggle = false;
+      const title = document.querySelector("#ui-title");
+      const divToggle = document.querySelector("#divToggle");
+
+      const clock = document.querySelector("#clock");
+      const timerDisplay = document.querySelector("#timer");
+      const startButton = document.querySelector("#start");
+      const stopButton = document.querySelector("#stop");
+      const pauseButton = document.querySelector("#pause");
+      const stampButton = document.querySelector("#stamp");
+
+      // 초기값 설정
+      title.textContent = "타임";
+
+      // load때 최초 1번 실행을 위해서
+      let firstNum = 0;
+
+      let seconds = 0;
+      let minutes = 0;
+      let hours = 0;
+      let isRunning = false;
+      let intervalId;
+
+      // 타이머 업데이트 함수
+      function updateTimer() {
+        // 시, 분, 초 계산
+        seconds++;
+        if (seconds >= 60) {
+          seconds = 0;
+          minutes++;
+          if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+          }
+        }
+
+        // 2자리수로 변경
+        const displayHours = hours < 10 ? `0${hours}` : hours;
+        const displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        const displaySeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+        // 타이머 출력
+        timerDisplay.textContent = `${displayHours}:${displayMinutes}:${displaySeconds}`;
+      }
+
+      function toggleBtn(showToggle) {
+        let btns = [startButton, stopButton, pauseButton, stampButton];
+
+        for (btn of btns) {
+          btn.style.display = showToggle ? "block" : "none";
+        }
+      }
+
+      function displayTime() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        var timeString = hours + ":" + minutes + ":" + seconds;
+        document.getElementById("clock").innerHTML = timeString;
+        setTimeout(displayTime, 1000);
+
+        toggleBtn(showToggle);
+
+        if (firstNum == 0) timerDisplay.style.display = "none";
+      }
+
+      divToggle.addEventListener("click", () => {
+        // toggleBtn(showToggle);
+
+        firstNum = 1;
+
+        showToggle == true
+          ? ((clock.style.display = "block"),
+            (timerDisplay.style.display = "none"),
+            (title.textContent = "타임"),
+            console.log("a"))
+          : ((clock.style.display = "none"),
+            (timerDisplay.style.display = "block"),
+            (title.textContent = "타이머"),
+            console.log("b"));
+
+        showToggle = !showToggle;
+      });
+
+      startButton.addEventListener("click", () => {
+        if (!isRunning) {
+          intervalId = setInterval(updateTimer, 1000);
+          isRunning = true;
+        } else {
+          isRunning = false;
+        }
+      });
+
+      // 정지 버튼 클릭 이벤트 핸들러
+      stopButton.addEventListener("click", () => {
+        clearInterval(intervalId);
+        seconds = 0;
+        minutes = 0;
+        hours = 0;
+        timerDisplay.textContent = "00:00:00";
+        isRunning = false;
+      });
+
+      // 일시정지 버튼 클릭 이벤트 핸들러
+      pauseButton.addEventListener("click", () => {
+        clearInterval(intervalId);
+        isRunning = false;
+      });
+
+      // 스탬프 버튼 클릭 이벤트 핸들러
+      stampButton.addEventListener("click", () => {
+        var element1 = document.getElementById("ul-stamp");
+        element1.removeAttribute("hidden");
+
+        const stampTime = timerDisplay.textContent;
+        const stampItem = document.createElement("li");
+        stampItem.textContent = stampTime;
+        const stampList = document.querySelector(".stamp-list");
+        stampList.appendChild(stampItem);
+      });
+    </script>
+  </body>
+</html>

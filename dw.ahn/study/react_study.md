@@ -371,13 +371,71 @@ export class MenuAuthService {
 
 ## 01
 
-```
+```js
 
 npx create-react-app codingapple_first
 
 npm install express
 
 npm install mongoose
+
+
+  // 부모 component
+
+    // 배열 update할 떄
+    const onChangeToggle = (id: number) => {
+      setUsers(
+        users.map((user) =>
+          user.id === id ? { ...user, active: !user.active } : user
+        )
+      );
+    };
+
+
+    // 방법 01
+    // 배열 add
+
+    const onCreate = () => {
+    const user = {
+        id: nextId.current,
+        ...inputs,
+    };
+    setUsers([...users, user]);
+
+
+    // 방법 02
+    // 배열 add
+
+    const user = {
+      id: nextId.current,
+      ...inputs,
+    };
+    setUsers(users.concat(user));
+
+
+
+    {users.map((user: { id: React.Key | null | undefined }) => (
+      <User
+        user={user}
+        key={user.id}
+        onRemove={onRemove}
+        onChangeToggle={onChangeToggle}
+      />
+    ))}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
