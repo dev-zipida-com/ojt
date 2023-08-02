@@ -1,0 +1,29 @@
+
+table{
+  /* border-radius: 1em; */
+  border-collapse: collapse;
+  overflow: hidden;
+  width: 100%;
+}
+
+th{
+  background-color: black;
+  color: white;
+  
+  margin-left: 5px;
+  padding: 5px;
+  text-align: left;
+  height: 30px;
+
+}
+
+
+td {
+  text-align: left;
+  height: 30px;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+background-color: #dddddd;
+}
