@@ -102,6 +102,16 @@ function app() {
   let timeContent = document.createElement("h2");
   timeContent.innerHTML = time.currentTime();
   wrap.appendChild(timeContent);
+  // 현재 시간 1초마다 반복 노출
+  function currentTime() {
+    clearInterval(timerInterval);
+    if (!isToggle) {
+      timerInterval = setInterval(() => {
+        timeContent.innerHTML = time.currentTime();
+      }, 1000);
+    }
+  }
+  currentTime();
 
   const toggleBtn = document.createElement("button");
   toggleBtn.innerHTML = "TOGGLE";
@@ -112,6 +122,7 @@ function app() {
   function handleToggle() {
     isToggle = !isToggle;
     if (isToggle) {
+      clearInterval(timerInterval);
       timeContent.innerHTML = "00:00:00";
 
       title.innerHTML = "STOPWATCH";
@@ -150,8 +161,10 @@ function app() {
       title.innerHTML = "CLOCK";
       wrap.innerHTML = "";
       wrap.appendChild(title);
-      const timeContent = document.createElement("h2");
       timeContent.innerHTML = time.currentTime();
+      timerInterval = setInterval(() => {
+        timeContent.innerHTML = time.currentTime();
+      }, 1000);
       wrap.appendChild(timeContent);
       wrap.appendChild(toggleBtn);
     }
